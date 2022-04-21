@@ -6,12 +6,9 @@ using System.Threading.Tasks;
 
 namespace XmlDownloader.Common
 {
-
-    public enum RequestType
+    internal enum EndPointType
     {
-        Cfdi,
-        Meta,
+        OrdinaryCfdi,
+        RetentionCfdi
     }
-
-  
 }

@@ -6,12 +6,11 @@ using System.Threading.Tasks;
 
 namespace XmlDownloader.Common
 {
-
-    public enum RequestType
+    internal enum EndPointName
     {
-        Cfdi,
-        Meta,
+        Authenticate,
+        Query,
+        Verify,
+        Download
     }
-
-  
 }

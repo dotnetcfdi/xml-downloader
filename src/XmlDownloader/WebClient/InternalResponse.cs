@@ -4,14 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace XmlDownloader.Common
+namespace XmlDownloader.WebClient
 {
-
-    public enum RequestType
+    internal class InternalResponse
     {
-        Cfdi,
-        Meta,
     }
-
-  
 }
