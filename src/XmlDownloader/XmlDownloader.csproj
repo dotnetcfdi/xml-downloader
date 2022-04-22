@@ -5,10 +5,6 @@
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
   </PropertyGroup>
-	
-  <ItemGroup>
-    <Folder Include="PackageReader\" />
-  </ItemGroup>
 
   <ItemGroup>
     <ProjectReference Include="..\..\..\credentials\src\Credencials\Credencials.csproj" />
