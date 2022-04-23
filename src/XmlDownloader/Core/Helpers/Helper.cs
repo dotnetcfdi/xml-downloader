@@ -1,17 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Runtime.CompilerServices;
-using System.Text;
-using System.Text.RegularExpressions;
-using System.Threading.Tasks;
+﻿using System.Text.RegularExpressions;
+using System.Web;
 using System.Xml;
-using System.Xml.Linq;
 using System.Xml.Serialization;
 using XmlDownloader.Core.Common;
-using XmlDownloader.Core.Exceptions;
 using XmlDownloader.Core.Models;
-using XmlDownloader.Core.Models.SatModels.Authenticate;
 using XmlDownloader.Core.Models.SatModels.Authenticate.Failure;
 using XmlDownloader.Core.Models.SatModels.Authenticate.Success;
 
@@ -126,39 +118,40 @@ namespace XmlDownloader.Core.Helpers
 
         public static Token GetTokenByRawResponse(string? rawResponse)
         {
-            if (string.IsNullOrEmpty(rawResponse)) return new Token();
+            var token = new Token();
 
 
-
+            if (string.IsNullOrEmpty(rawResponse))
+                return token;
 
             var xml = new XmlDocument();
             xml.LoadXml(rawResponse);
 
-            IEnumerable<XElement> childList =
-                from el in xml.OuterXml.Elements()
-                select el;
+
+            var created = xml?.DocumentElement?.GetElementsByTagName("u:Created")[0]?.InnerText;
+
+            var expires = xml?.DocumentElement?.GetElementsByTagName("u:Expires")[0]?.InnerText;
+
+            var autenticaResult = xml?.DocumentElement?.GetElementsByTagName("AutenticaResult")[0]?.InnerText;
 
 
-
-
-            File.WriteAllText("fail.xml", rawResponse);
-
-
-            rawResponse = @"<s:Envelope><s:Body><s:Fault><faultcode xmlns:a=\""http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-secext-1.0.xsd\"">a:InvalidSecurity</faultcode><faultstring xml:lang=\""en-US\"">An error occurred when verifying security for the message.</faultstring></s:Fault></s:Body></s:Envelope>";
-
-            var failureEnvelope = Deserialize<ErrorEnvelope>(rawResponse);
-
-
-            var authenticateEnvelope = Deserialize<AuthenticateEnvelope>(rawResponse);
-
-            var token = new Token
+            if (created is null | expires is null | autenticaResult is null)
             {
-                ValidFrom = authenticateEnvelope.Header.Security.Timestamp.Created,
-                ValidTo = authenticateEnvelope.Header.Security.Timestamp.Expires,
-                Value = authenticateEnvelope.Body.AutenticaResponse.AutenticaResult
-            };
+                var faultcode = xml?.DocumentElement?.GetElementsByTagName("faultcode")[0]?.InnerText;
+                var faultstring = xml?.DocumentElement?.GetElementsByTagName("faultstring")[0]?.InnerText;
 
-            return new Token();
+                token.ErrorMessage = $"{faultcode}: {faultstring}";
+                return token;
+            }
+
+
+            token.ValidFrom = Convert.ToDateTime(created);
+            token.ValidTo = Convert.ToDateTime(expires);
+            token.Value = $"WRAP access_token={HttpUtility.UrlDecode(autenticaResult)}";
+            token.IsSuccessAuthentication = true;
+
+
+            return token;
         }
 
         public static T Deserialize<T>(string xml)

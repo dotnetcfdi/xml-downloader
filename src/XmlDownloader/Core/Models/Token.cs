@@ -8,10 +8,11 @@ namespace XmlDownloader.Core.Models
 {
     public class Token
     {
-        
         public DateTime ValidFrom { get; set; }
         public DateTime ValidTo { get; set; }
         public string? Value { get; set; }
+        public bool IsSuccessAuthentication { get; set; }
+        public string? ErrorMessage { get; set; }
 
         public bool IsValid()
         {
