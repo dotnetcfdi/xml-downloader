@@ -2,7 +2,9 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
+using System.Xml;
 using XmlDownloader.Core.Builder;
 using XmlDownloader.Core.Common;
 using XmlDownloader.Core.Helpers;
@@ -27,8 +29,24 @@ namespace XmlDownloader.Core.Services.Authenticate
 
             var soapEnvelope = soapEnvelopeBuilder.Authenticate(tokenPeriod);
 
-            var envelope = Helper.CleanXml(soapEnvelope);
 
+            soapEnvelope= soapEnvelope.CleanXml();
+
+
+
+
+
+            var xml = new XmlDocument
+            {
+                PreserveWhitespace = true
+            };
+
+
+            xml.LoadXml(soapEnvelope);
+
+
+
+            soapEnvelope = xml.OuterXml;
 
             File.WriteAllText("Request.xml", soapEnvelope);
 
@@ -39,7 +57,7 @@ namespace XmlDownloader.Core.Services.Authenticate
             {
                 Url = endpoint.Url,
                 SoapAction = endpoint.SoapAction,
-                SoapEnvelope = soapEnvelope,
+                RawRequest = soapEnvelope,
                 HttpMethod = HttpMethod.Post,
                 EndPointName = EndPointName.Authenticate,
             };

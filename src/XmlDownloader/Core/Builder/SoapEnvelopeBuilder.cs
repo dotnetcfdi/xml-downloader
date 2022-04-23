@@ -31,7 +31,7 @@ public class SoapEnvelopeBuilder
                     <u:Expires>{tokenPeriod.Expires}</u:Expires>
                 </u:Timestamp>";
 
-        var digest = credential.CreateHash(Helper.CleanXml(timeStamp));
+        var digest = credential.CreateHash(timeStamp.CleanXml());
 
 
         var canonicalSignedInfo =
@@ -47,25 +47,25 @@ public class SoapEnvelopeBuilder
                     </Reference>
                 </SignedInfo>";
 
-        var signature = credential.SignData(Helper.CleanXml(canonicalSignedInfo)).ToBase64String();
+        var signature = credential.SignData(canonicalSignedInfo).ToBase64String();
 
         var soapEnvelope =
-            @$"<? xml version = ""1.0"" encoding = ""utf-8"" ?>
-             <s:Envelope xmlns:s=""http://schemas.xmlsoap.org/soap/envelope/"" xmlns:u=""http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-utility-1.0.xsd"" >
+            @$"<?xml version=""1.0""?>
+             <s:Envelope xmlns:s=""http://schemas.xmlsoap.org/soap/envelope/"" xmlns:u=""http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-utility-1.0.xsd"">
                 <s:Header>
-                    <o:Security s:mustUnderstand = ""1"" xmlns: o = ""http: //docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-secext-1.0.xsd"">
+                    <o:Security s:mustUnderstand = ""1"" xmlns:o=""http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-secext-1.0.xsd"">
                         <u:Timestamp u:Id = ""_0"">
                             <u:Created>{tokenPeriod.Created}</u:Created>
                             <u:Expires>{tokenPeriod.Expires}</u:Expires>
                         </u:Timestamp>
-                        <o:BinarySecurityToken u:Id = ""uuid"" ValueType =""http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-x509-token-profile-1.0#X509v3"" EncodingType =""http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-soap-message-security-1.0#Base64Binary"" >
+                        <o:BinarySecurityToken u:Id = ""uuid"" ValueType =""http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-x509-token-profile-1.0#X509v3"" EncodingType =""http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-soap-message-security-1.0#Base64Binary"">
                             {certB64}
                         </o:BinarySecurityToken>
-                        <Signature xmlns = ""http://www.w3.org/2000/09/xmldsig#"" >
-                         <SignedInfo >
+                        <Signature xmlns = ""http://www.w3.org/2000/09/xmldsig#"">
+                         <SignedInfo>
                             <CanonicalizationMethod Algorithm = ""http://www.w3.org/2001/10/xml-exc-c14n#""/>
                             <SignatureMethod Algorithm = ""http://www.w3.org/2000/09/xmldsig#rsa-sha1""/>
-                            <Reference URI = ""#_0"" >
+                            <Reference URI = ""#_0"">
                                 <Transforms>
                                     <Transform Algorithm = ""http://www.w3.org/2001/10/xml-exc-c14n#""/>
                                 </Transforms>
@@ -76,7 +76,7 @@ public class SoapEnvelopeBuilder
                         <SignatureValue>{signature}</SignatureValue>
                         <KeyInfo>
                             <o:SecurityTokenReference>
-                                <o:Reference ValueType =""http: //docs.oasis-open.org/wss/2004/01/oasis-200401-wss-x509-token-profile-1.0#X509v3"" URI =""#{securityTokenId}""/>
+                                <o:Reference ValueType =""http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-x509-token-profile-1.0#X509v3"" URI =""#{securityTokenId}""/>
                             </o:SecurityTokenReference>
                         </KeyInfo>
                         </Signature>

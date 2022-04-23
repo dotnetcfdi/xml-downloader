@@ -15,7 +15,7 @@ namespace XmlDownloader.Core.Builder
         public static HttpRequestMessage BuildHttpRequestMessage(InternalRequest internalRequest)
         {
             var content = new StringContent(
-                internalRequest.SoapEnvelope,
+                internalRequest.RawRequest,
                 internalRequest.Encoding,
                 internalRequest.MediaType);
 

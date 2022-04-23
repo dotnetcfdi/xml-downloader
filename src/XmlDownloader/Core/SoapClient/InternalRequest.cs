@@ -6,9 +6,9 @@ namespace XmlDownloader.Core.SoapClient
 {
     public class InternalRequest
     {
-        public string Url { get; set; }
-        public string SoapAction { get; set; }
-        public string SoapEnvelope { get; set; }
+        public string? Url { get; set; }
+        public string? SoapAction { get; set; }
+        public string? RawRequest { get; set; }
         public EndPointName EndPointName { get; set; }
         public HttpMethod HttpMethod { get; set; } = HttpMethod.Post;
         public Encoding Encoding { get; set; } = Encoding.UTF8;
