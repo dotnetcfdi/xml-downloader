@@ -27,11 +27,18 @@ public class SoapEnvelopeBuilder
         var certB64 = credential.Certificate.RawDataBytes.ToBase64String();
 
 
-        var timeStamp =
-            @$"<u:Timestamp u:Id=""_0"">
-                    <u:Created>{tokenPeriod.Created}</u:Created>
-                    <u:Expires>{tokenPeriod.Expires}</u:Expires>
-                </u:Timestamp>";
+        //var timeStamp =
+        //    @$"<u:Timestamp xmlns:u=""http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-utility-1.0.xsd"" u:Id=""_0"">
+        //            < u:Created>{tokenPeriod.Created}</u:Created>
+        //            <u:Expires>{tokenPeriod.Expires}</u:Expires>
+        //        </u:Timestamp>";
+
+        var timeStamp = 
+            @$"<u:Timestamp xmlns:u=""http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-utility-1.0.xsd"" u:Id=""_0"">
+                <u:Created>{tokenPeriod.Created}</u:Created>
+                <u:Expires>{tokenPeriod.Expires}</u:Expires>
+            </u:Timestamp>";
+
 
         var digest = credential.CreateHash(timeStamp.CleanXml());
 
