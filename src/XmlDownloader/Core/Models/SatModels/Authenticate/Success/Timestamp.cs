@@ -1,8 +1,8 @@
 using System.Xml.Serialization;
 
-namespace XmlDownloader.Core.Models.SatModels.Authenticate;
+namespace XmlDownloader.Core.Models.SatModels.Authenticate.Success;
 
-[XmlRoot(ElementName = "Timestamp")]
+
 public class Timestamp
 {
     [XmlElement(ElementName = "Created")] public DateTime Created { get; set; }

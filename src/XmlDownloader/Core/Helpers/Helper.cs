@@ -6,11 +6,14 @@ using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using System.Xml;
+using System.Xml.Linq;
 using System.Xml.Serialization;
 using XmlDownloader.Core.Common;
 using XmlDownloader.Core.Exceptions;
 using XmlDownloader.Core.Models;
 using XmlDownloader.Core.Models.SatModels.Authenticate;
+using XmlDownloader.Core.Models.SatModels.Authenticate.Failure;
+using XmlDownloader.Core.Models.SatModels.Authenticate.Success;
 
 namespace XmlDownloader.Core.Helpers
 {
@@ -31,21 +34,21 @@ namespace XmlDownloader.Core.Helpers
             {
                 EndPointName = EndPointName.Authenticate,
                 EndPointType = EndPointType.OrdinaryCfdi,
-                Url = "https://cfdidescargamasivasolicitud.clouda.sat.gob.mx/Autenticacion/Autenticacion.svc",
+                Uri = "https://cfdidescargamasivasolicitud.clouda.sat.gob.mx/Autenticacion/Autenticacion.svc",
                 SoapAction = "http://DescargaMasivaTerceros.gob.mx/IAutenticacion/Autentica"
             },
             new Endpoint
             {
                 EndPointName = EndPointName.Query,
                 EndPointType = EndPointType.OrdinaryCfdi,
-                Url = "https://cfdidescargamasivasolicitud.clouda.sat.gob.mx/SolicitaDescargaService.svc",
+                Uri = "https://cfdidescargamasivasolicitud.clouda.sat.gob.mx/SolicitaDescargaService.svc",
                 SoapAction = "http://DescargaMasivaTerceros.sat.gob.mx/ISolicitaDescargaService/SolicitaDescarga"
             },
             new Endpoint
             {
                 EndPointName = EndPointName.Verify,
                 EndPointType = EndPointType.OrdinaryCfdi,
-                Url = "https://cfdidescargamasivasolicitud.clouda.sat.gob.mx/VerificaSolicitudDescargaService.svc",
+                Uri = "https://cfdidescargamasivasolicitud.clouda.sat.gob.mx/VerificaSolicitudDescargaService.svc",
                 SoapAction =
                     "http://DescargaMasivaTerceros.sat.gob.mx/IVerificaSolicitudDescargaService/VerificaSolicitudDescarga"
             },
@@ -53,7 +56,7 @@ namespace XmlDownloader.Core.Helpers
             {
                 EndPointName = EndPointName.Download,
                 EndPointType = EndPointType.OrdinaryCfdi,
-                Url = "https://cfdidescargamasiva.clouda.sat.gob.mx/DescargaMasivaService.svc",
+                Uri = "https://cfdidescargamasiva.clouda.sat.gob.mx/DescargaMasivaService.svc",
                 SoapAction = "http://DescargaMasivaTerceros.sat.gob.mx/IDescargaMasivaTercerosService/Descargar"
             },
             //Retenciones
@@ -61,28 +64,28 @@ namespace XmlDownloader.Core.Helpers
             {
                 EndPointName = EndPointName.Authenticate,
                 EndPointType = EndPointType.RetentionCfdi,
-                Url = "https://retendescargamasivasolicitud.clouda.sat.gob.mx/Autenticacion/Autenticacion.svc",
+                Uri = "https://retendescargamasivasolicitud.clouda.sat.gob.mx/Autenticacion/Autenticacion.svc",
                 SoapAction = null
             },
             new Endpoint
             {
                 EndPointName = EndPointName.Query,
                 EndPointType = EndPointType.RetentionCfdi,
-                Url = "https://retendescargamasivasolicitud.clouda.sat.gob.mx/SolicitaDescargaService.svc",
+                Uri = "https://retendescargamasivasolicitud.clouda.sat.gob.mx/SolicitaDescargaService.svc",
                 SoapAction = null
             },
             new Endpoint
             {
                 EndPointName = EndPointName.Verify,
                 EndPointType = EndPointType.RetentionCfdi,
-                Url = "https://retendescargamasivasolicitud.clouda.sat.gob.mx/VerificaSolicitudDescargaService.svc",
+                Uri = "https://retendescargamasivasolicitud.clouda.sat.gob.mx/VerificaSolicitudDescargaService.svc",
                 SoapAction = null
             },
             new Endpoint
             {
                 EndPointName = EndPointName.Download,
                 EndPointType = EndPointType.RetentionCfdi,
-                Url = "https://retendescargamasiva.clouda.sat.gob.mx/DescargaMasivaService.svc",
+                Uri = "https://retendescargamasiva.clouda.sat.gob.mx/DescargaMasivaService.svc",
                 SoapAction = null
             }
         };
@@ -124,6 +127,26 @@ namespace XmlDownloader.Core.Helpers
         public static Token GetTokenByRawResponse(string? rawResponse)
         {
             if (string.IsNullOrEmpty(rawResponse)) return new Token();
+
+
+
+
+            var xml = new XmlDocument();
+            xml.LoadXml(rawResponse);
+
+            IEnumerable<XElement> childList =
+                from el in xml.OuterXml.Elements()
+                select el;
+
+
+
+
+            File.WriteAllText("fail.xml", rawResponse);
+
+
+            rawResponse = @"<s:Envelope><s:Body><s:Fault><faultcode xmlns:a=\""http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-secext-1.0.xsd\"">a:InvalidSecurity</faultcode><faultstring xml:lang=\""en-US\"">An error occurred when verifying security for the message.</faultstring></s:Fault></s:Body></s:Envelope>";
+
+            var failureEnvelope = Deserialize<ErrorEnvelope>(rawResponse);
 
 
             var authenticateEnvelope = Deserialize<AuthenticateEnvelope>(rawResponse);

@@ -11,7 +11,7 @@ namespace XmlDownloader.Core.Models
     {
         public EndPointName EndPointName { get; set; }
         public EndPointType EndPointType { get; set; }
-        public string Url { get; set; } = string.Empty;
+        public string Uri { get; set; } = string.Empty;
         public string SoapAction { get; set; } = string.Empty;
     }
 }

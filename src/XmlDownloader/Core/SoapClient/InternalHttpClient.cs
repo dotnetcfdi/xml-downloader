@@ -15,29 +15,13 @@ namespace XmlDownloader.Core.SoapClient
 
         public static async Task<InternalResponse> SendAsync(InternalRequest internalRequest)
         {
-            var internalResponse = new InternalResponse();
+            using var request = MessageBuilder.BuildHttpRequestMessage(internalRequest);
 
-            try
-            {
-                if (internalRequest.HttpRequestMessage is not null)
-                {
-                    internalResponse.HttpResponseMessage = await httpClient.SendAsync(
-                        internalRequest.HttpRequestMessage,
-                        HttpCompletionOption.ResponseHeadersRead);
+            using var response = await httpClient.SendAsync(request, HttpCompletionOption.ResponseHeadersRead);
 
 
-                    internalResponse =
-                        await HttpMessageBuilder.BuildHttpResponseMessage(internalRequest, internalResponse);
+            var internalResponse = await MessageBuilder.BuildInternalResponseMessage(internalRequest, response);
 
-
-                    return internalResponse;
-                }
-            }
-            catch (Exception ex)
-            {
-                internalResponse.HttpResponseMessage = new HttpResponseMessage(HttpStatusCode.InternalServerError);
-                internalResponse.HttpResponseMessage.Content = new StringContent(ex.Message);
-            }
 
             return internalResponse;
         }

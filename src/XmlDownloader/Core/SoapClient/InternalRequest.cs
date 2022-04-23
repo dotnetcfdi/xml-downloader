@@ -13,7 +13,6 @@ namespace XmlDownloader.Core.SoapClient
         public HttpMethod HttpMethod { get; set; } = HttpMethod.Post;
         public Encoding Encoding { get; set; } = Encoding.UTF8;
         public string MediaType { get; set; } = "text/xml";
-        public HttpRequestMessage? HttpRequestMessage { get; set; }
 
         public List<KeyValuePair<string, string>> Headers { get; set; } = new();
 

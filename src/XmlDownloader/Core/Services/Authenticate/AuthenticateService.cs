@@ -27,46 +27,27 @@ namespace XmlDownloader.Core.Services.Authenticate
         {
             var tokenPeriod = TokenPeriod.Create();
 
-            var soapEnvelope = soapEnvelopeBuilder.Authenticate(tokenPeriod);
+            var rawRequest = soapEnvelopeBuilder.BuildAuthenticate();
 
+            rawRequest = rawRequest.CleanXml();
 
-            soapEnvelope= soapEnvelope.CleanXml();
-
-
-
-
-
-            var xml = new XmlDocument
-            {
-                PreserveWhitespace = true
-            };
-
-
-            xml.LoadXml(soapEnvelope);
-
-
-
-            soapEnvelope = xml.OuterXml;
-
-            File.WriteAllText("Request.xml", soapEnvelope);
 
             var endpoint = Helper.GetAuthenticateEndPoint();
 
 
             var internalRequest = new InternalRequest
             {
-                Url = endpoint.Url,
+                Url = endpoint.Uri,
                 SoapAction = endpoint.SoapAction,
-                RawRequest = soapEnvelope,
+                RawRequest = rawRequest,
                 HttpMethod = HttpMethod.Post,
                 EndPointName = EndPointName.Authenticate,
             };
 
-            internalRequest.HttpRequestMessage = HttpMessageBuilder.BuildHttpRequestMessage(internalRequest);
 
             var internalResponse = await InternalHttpClient.SendAsync(internalRequest);
 
-            var token = Helper.GetTokenByRawResponse(internalResponse.ResponseAsString);
+            var token = Helper.GetTokenByRawResponse(internalResponse.RawResponse);
 
             return token;
         }

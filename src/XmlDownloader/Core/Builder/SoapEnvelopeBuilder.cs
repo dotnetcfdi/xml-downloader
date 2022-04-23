@@ -19,8 +19,10 @@ public class SoapEnvelopeBuilder
         this.credential = credential;
     }
 
-    public string Authenticate(TokenPeriod tokenPeriod, string securityTokenId = "")
+    public string BuildAuthenticate(TokenPeriod? tokenPeriod = null, string securityTokenId = "")
     {
+        tokenPeriod ??= TokenPeriod.Create();
+
         securityTokenId = string.IsNullOrEmpty(securityTokenId) ? CreateXmlSecurityTokenId() : securityTokenId;
         var certB64 = credential.Certificate.RawDataBytes.ToBase64String();
 
@@ -47,7 +49,7 @@ public class SoapEnvelopeBuilder
                     </Reference>
                 </SignedInfo>";
 
-        var signature = credential.SignData(canonicalSignedInfo).ToBase64String();
+        var signature = credential.SignData(canonicalSignedInfo.CleanXml()).ToBase64String();
 
         var soapEnvelope =
             @$"<?xml version=""1.0""?>

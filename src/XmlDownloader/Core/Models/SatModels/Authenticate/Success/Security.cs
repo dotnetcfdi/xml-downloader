@@ -1,8 +1,8 @@
 using System.Xml.Serialization;
 
-namespace XmlDownloader.Core.Models.SatModels.Authenticate;
+namespace XmlDownloader.Core.Models.SatModels.Authenticate.Success;
 
-[XmlRoot(ElementName = "Security")]
+
 public class Security
 {
     [XmlElement(ElementName = "Timestamp")]
