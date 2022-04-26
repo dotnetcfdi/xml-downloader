@@ -25,12 +25,12 @@ namespace XmlDownloader.Core.Services.Authenticate
 
         public async Task<Token> Authenticate()
         {
-            var tokenPeriod = TokenPeriod.Create();
+            //var date = new DateTime(2022, 4, 25, 19, 0, 0);
+            //var tokenPeriod = TokenPeriod.Create(date);
 
             var rawRequest = soapEnvelopeBuilder.BuildAuthenticate();
 
-            rawRequest = rawRequest.CleanXml();
-
+          
 
             var endpoint = Helper.GetAuthenticateEndPoint();
 
@@ -46,6 +46,15 @@ namespace XmlDownloader.Core.Services.Authenticate
 
 
             var internalResponse = await InternalHttpClient.SendAsync(internalRequest);
+
+            if (internalResponse.InternalRequest?.RawRequest != null)
+            {
+                await File.WriteAllTextAsync("RawRequest.Xml", internalResponse.InternalRequest.RawRequest);
+                await File.WriteAllTextAsync("RawResponse.Xml", internalResponse.RawResponse);
+            }
+
+          
+
 
             var token = Helper.GetTokenByRawResponse(internalResponse.RawResponse);
 

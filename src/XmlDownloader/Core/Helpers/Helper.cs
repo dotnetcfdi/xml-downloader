@@ -154,13 +154,7 @@ namespace XmlDownloader.Core.Helpers
             return token;
         }
 
-        public static T Deserialize<T>(string xml)
-        {
-            var serializer = new XmlSerializer(typeof(T));
-            var result = (T) serializer.Deserialize(new StringReader(xml));
-
-            return (T) result;
-        }
+     
 
         /// <summary>
         /// Remove horizontal spaces at beginning, carriage return (CR), Line Feed (LF) and xml declaration on its own line.

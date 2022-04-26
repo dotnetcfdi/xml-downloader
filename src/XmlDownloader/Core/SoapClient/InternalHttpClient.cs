@@ -17,10 +17,13 @@ namespace XmlDownloader.Core.SoapClient
         {
             using var request = MessageBuilder.BuildHttpRequestMessage(internalRequest);
 
-            using var response = await httpClient.SendAsync(request, HttpCompletionOption.ResponseHeadersRead);
+            using var response = await httpClient.SendAsync(request, HttpCompletionOption.ResponseContentRead);
 
 
             var internalResponse = await MessageBuilder.BuildInternalResponseMessage(internalRequest, response);
+
+
+
 
 
             return internalResponse;

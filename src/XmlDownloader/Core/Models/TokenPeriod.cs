@@ -30,6 +30,10 @@ namespace XmlDownloader.Core.Models
             var created = DateTime.UtcNow;
             var expires = created.AddSeconds(300);
             return new TokenPeriod(created, expires);
+        }  public static TokenPeriod Create(DateTime fixedDateTime)
+        {
+            var expires = fixedDateTime.AddSeconds(300);
+            return new TokenPeriod(fixedDateTime, expires);
         }
     }
 }
