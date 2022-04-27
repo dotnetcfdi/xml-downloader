@@ -55,13 +55,13 @@ namespace XmlDownloader.Core.Models
         {
             var created = DateTime.UtcNow;
             var expires = created.AddSeconds(300);
-            return new DateTimePeriod(created, expires);
+            return CreateQueryPeriod(created, expires);
         }
 
-        public static DateTimePeriod CreateTokenPeriod(DateTime fixedDateTime)
+        public static DateTimePeriod CreateTokenPeriod(DateTime startDate)
         {
-            var expires = fixedDateTime.AddSeconds(300);
-            return new DateTimePeriod(fixedDateTime, expires);
+            var endDate = startDate.AddSeconds(300);
+            return CreateQueryPeriod(startDate, endDate);
         }
     }
 }
