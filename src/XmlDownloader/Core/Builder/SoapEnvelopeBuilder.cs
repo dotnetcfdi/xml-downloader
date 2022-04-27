@@ -19,9 +19,9 @@ public class SoapEnvelopeBuilder
         this.credential = credential;
     }
 
-    public string BuildAuthenticate(TokenPeriod? tokenPeriod = null, string securityTokenId = "")
+    public string BuildAuthenticate(DateTimePeriod? tokenPeriod = null, string securityTokenId = "")
     {
-        tokenPeriod ??= TokenPeriod.Create();
+        tokenPeriod ??= DateTimePeriod.CreateTokenPeriod();
 
         securityTokenId = string.IsNullOrEmpty(securityTokenId) ? CreateXmlSecurityTokenId() : securityTokenId;
         var certB64 = credential.Certificate.RawDataBytes.ToBase64String();
