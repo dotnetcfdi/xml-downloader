@@ -25,7 +25,10 @@ namespace XmlDownloader.Core.Models
         public string Created { get; set; }
         public string Expires { get; set; }
 
-
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <returns></returns>
         public static DateTimePeriod CreateYesterdayQueryPeriod()
         {
             var yesterday = DateTime.Now.AddDays(-1);
