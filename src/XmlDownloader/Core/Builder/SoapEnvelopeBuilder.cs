@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Credencials.Common;
 using Credencials.Core;
+using XmlDownloader.Core.Common;
 using XmlDownloader.Core.Helpers;
 using XmlDownloader.Core.Models;
 
@@ -116,18 +117,19 @@ public class SoapEnvelopeBuilder
     }
 
 
-    public string BuildQuery(DateTimePeriod queryPeriod, string rfcIssuer, string rfcReceiver, string requestType)
+    public string BuildQuery(string startDate, string endDate, string requestType, string downloadType,
+        string? emitterRfc, string? receiverRfc)
     {
         var signerRfc = credential.Certificate.Rfc;
 
 
         var toDigest =
-            @$"<des:SolicitaDescarga xmlns:des=""http://DescargaMasivaTerceros.sat.gob.mx"">
-	                <des:solicitud RfcSolicitante=""rfcSolicitante"" FechaInicial=""fechaInicial"" FechaFinal=""fechaFinal"" TipoSolicitud=""CFDI"">
-		                <des:RfcReceptores>
-			                <des:RfcReceptor>{rfcReceiver}</des:RfcReceptor>
-		                </des:RfcReceptores>
-	                </des:solicitud>
+            @$"<des:SolicitaDescarga xmlns:des=""http://DescargaMasivaTerceros.sat.gob.mx\"">
+	            <des:solicitud RfcSolicitante=""{signerRfc}"" FechaInicial=""{startDate}"" FechaFinal=""{endDate}"" TipoSolicitud=""{requestType}"">
+		            <des:RfcReceptores>
+			            <des:RfcReceptor>{receiverRfc}</des:RfcReceptor>
+		            </des:RfcReceptores>
+	            </des:solicitud>
             </des:SolicitaDescarga>";
 
         var digest = credential.CreateHash(toDigest.CleanXml());
@@ -139,14 +141,14 @@ public class SoapEnvelopeBuilder
 
         var soapEnvelope =
             @$"<s:Envelope xmlns:s=""http://schemas.xmlsoap.org/soap/envelope/"" xmlns:u=""http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-utility-1.0.xsd"" xmlns:des=""http://DescargaMasivaTerceros.sat.gob.mx"" xmlns:xd=""http://www.w3.org/2000/09/xmldsig#"">
-                <s:Header/>
+	                <s:Header/>
 	                <s:Body>
 		                <des:SolicitaDescarga>
-			                <des:solicitud RfcEmisor=""{rfcIssuer}"" RfcSolicitante=""{signerRfc}"" FechaInicial=""{queryPeriod.StartDateSat}"" FechaFinal=""{queryPeriod.EndDateSat}"" TipoSolicitud=""{requestType}"">
+			                <des:solicitud RfcSolicitante=""{signerRfc}"" FechaInicial=""{startDate}"" FechaFinal=""{endDate}"" TipoSolicitud=""{requestType}"" >
 				                <des:RfcReceptores>
-					                <des:RfcReceptor>{rfcReceiver}</des:RfcReceptor>
+					                <des:RfcReceptor>{receiverRfc}</des:RfcReceptor>
 				                </des:RfcReceptores>
-                                <Signature xmlns=""http://www.w3.org/2000/09/xmldsig#"">
+				                <Signature xmlns=""http://www.w3.org/2000/09/xmldsig#"">
 					                <SignedInfo>
 						                <CanonicalizationMethod Algorithm=""http://www.w3.org/2001/10/xml-exc-c14n#""/>
 						                <SignatureMethod Algorithm=""http://www.w3.org/2000/09/xmldsig#rsa-sha1""/>
@@ -155,24 +157,24 @@ public class SoapEnvelopeBuilder
 								                <Transform Algorithm=""http://www.w3.org/2001/10/xml-exc-c14n#""/>
 							                </Transforms>
 							                <DigestMethod Algorithm=""http://www.w3.org/2000/09/xmldsig#sha1""/>
-							                <DigestValue>digest</DigestValue>
+							                <DigestValue>{digest}</DigestValue>
 						                </Reference>
 					                </SignedInfo>
-                                        <SignatureValue>signature</SignatureValue>
+					                <SignatureValue>{signature}</SignatureValue>
 					                <KeyInfo>
 						                <X509Data>
 							                <X509IssuerSerial>
 								                <X509IssuerName>{credential.Certificate.Issuer}</X509IssuerName>
 								                <X509SerialNumber>{credential.Certificate.SerialNumber}</X509SerialNumber>
 							                </X509IssuerSerial>
-							                <X509Certificate>Convert.ToBase64String(certificate.RawData)</X509Certificate>
+							                <X509Certificate>{credential.Certificate.RawDataBytes.ToBase64String()}</X509Certificate>
 						                </X509Data>
 					                </KeyInfo>
 				                </Signature>
-                            </des:solicitud>
+			                </des:solicitud>
 		                </des:SolicitaDescarga>
 	                </s:Body>
-            </s:Envelope>";
+                </s:Envelope>";
 
 
         return soapEnvelope.CleanXml();

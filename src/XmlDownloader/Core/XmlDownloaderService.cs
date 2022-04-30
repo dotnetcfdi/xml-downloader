@@ -1,7 +1,10 @@
 ﻿using Credencials.Core;
 using XmlDownloader.Core.Builder;
+using XmlDownloader.Core.Common;
+using XmlDownloader.Core.Helpers;
 using XmlDownloader.Core.Models;
 using XmlDownloader.Core.Services.Authenticate;
+using XmlDownloader.Core.Services.Query;
 
 namespace XmlDownloader.Core;
 
@@ -40,5 +43,33 @@ public class XmlDownloaderService
         var token = await service.Authenticate();
 
         return token;
+    }
+
+    public async Task<QueryResult> Query()
+    {
+        var service = new QueryService(soapEnvelopeBuilder);
+
+
+        var queryParameters = new QueryParameters();
+        queryParameters.StartDate = new DateTime(2018, 12, 01, 0, 0, 0);
+        queryParameters.EndDate = new DateTime(2018, 12, 02, 23, 59, 59);
+        queryParameters.EmitterRfc = null;
+        queryParameters.ReceiverRfc = "DGE131017IP1";
+        queryParameters.RequestType = RequestType.CFDI;
+        queryParameters.DownloadType = DownloadType.Received;
+
+
+        var queryResult = await service.Query(
+            queryParameters.StartDate.ToSatFormat(),
+            queryParameters.EndDate.ToSatFormat(),
+            queryParameters.EmitterRfc,
+            queryParameters.ReceiverRfc,
+            queryParameters.RequestType.ToString(),
+            queryParameters.DownloadType.ToString()
+        );
+
+
+
+        return queryResult;
     }
 }

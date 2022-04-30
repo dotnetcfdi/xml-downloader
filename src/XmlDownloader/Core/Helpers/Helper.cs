@@ -93,6 +93,10 @@ namespace XmlDownloader.Core.Helpers
             return GetEndPoint(EndPointName.Authenticate, EndPointType.OrdinaryCfdi);
         }
 
+        public static Endpoint GetQueryEndPoint()
+        {
+            return GetEndPoint(EndPointName.Query, EndPointType.OrdinaryCfdi);
+        }
 
         public static List<Endpoint> GetAllEndPoints(EndPointType type)
         {
@@ -154,7 +158,6 @@ namespace XmlDownloader.Core.Helpers
             return token;
         }
 
-     
 
         /// <summary>
         /// Remove horizontal spaces at beginning, carriage return (CR), Line Feed (LF) and xml declaration on its own line.
@@ -210,6 +213,12 @@ namespace XmlDownloader.Core.Helpers
             str = str.Replace(@"?><", @$"?>{Environment.NewLine}<");
 
             return string.IsNullOrEmpty(str) ? string.Empty : str;
+        }
+
+
+        public static string ToStringRequestType(this RequestType enumType)
+        {
+            return enumType.ToString();
         }
     }
 }

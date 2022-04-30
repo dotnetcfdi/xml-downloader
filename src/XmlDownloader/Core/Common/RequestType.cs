@@ -3,8 +3,8 @@
 
     public enum RequestType
     {
-        Cfdi,
-        Meta,
+        CFDI,
+        Metadata,
     }
 
   
