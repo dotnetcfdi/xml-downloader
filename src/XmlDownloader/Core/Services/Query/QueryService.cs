@@ -59,7 +59,7 @@ namespace XmlDownloader.Core.Services.Query
             var result = Helper.GetQueryResult(internalResponse?.RawResponse);
 
 
-            return new QueryResult();
+            return result;
         }
     }
 }
