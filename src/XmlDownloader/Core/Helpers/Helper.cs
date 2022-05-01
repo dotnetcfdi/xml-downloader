@@ -9,6 +9,7 @@ using XmlDownloader.Core.Models.SatModels.Authenticate.Failure;
 using XmlDownloader.Core.Models.SatModels.Authenticate.Success;
 using XmlDownloader.Core.Services.Authenticate;
 using XmlDownloader.Core.Services.Query;
+using XmlDownloader.Core.Services.Verify;
 
 namespace XmlDownloader.Core.Helpers
 {
@@ -97,6 +98,11 @@ namespace XmlDownloader.Core.Helpers
         }
 
         public static Endpoint GetQueryEndPoint()
+        {
+            return GetEndPoint(EndPointName.Query, EndPointType.OrdinaryCfdi);
+        }
+
+        public static Endpoint GetVerifyEndPoint()
         {
             return GetEndPoint(EndPointName.Query, EndPointType.OrdinaryCfdi);
         }
@@ -225,24 +231,73 @@ namespace XmlDownloader.Core.Helpers
             xmlDoc.LoadXml(rawResponse);
 
 
-            var statusCode = xmlDoc.GetElementsByTagName("SolicitaDescargaResult")[0]
+            result.StatusCode = xmlDoc.GetElementsByTagName("SolicitaDescargaResult")[0]
                 ?.Attributes?["CodEstatus"]
                 ?.Value;
 
-            var message =
+            result.Message =
                 xmlDoc.GetElementsByTagName("SolicitaDescargaResult")[0]?.Attributes?["Mensaje"]?.Value;
 
-            var requestUuid = xmlDoc.GetElementsByTagName("SolicitaDescargaResult")[0]
+            result.RequestUuid = xmlDoc.GetElementsByTagName("SolicitaDescargaResult")[0]
                 ?.Attributes?["IdSolicitud"]
                 ?.Value;
 
 
-            if (statusCode is null || message is null || requestUuid is null) return result;
+            if (result.StatusCode is null || result.Message is null || result.RequestUuid is null)
+                return result;
 
-            result.RequestId = requestUuid;
-            result.StatusCode = statusCode;
-            result.Message = message;
-            result.IsSuccess = string.Equals(statusCode, "5000");
+            result.IsSuccess = string.Equals(result.StatusCode, "5000") && result.RequestUuid is not null;
+
+            return result;
+        }
+
+        public static VerifyResult GetVerifyResult(string? rawResponse)
+        {
+            var result = new VerifyResult();
+
+            if (string.IsNullOrEmpty(rawResponse)) return result;
+
+
+            var xmlDoc = new XmlDocument();
+            xmlDoc.LoadXml(rawResponse);
+
+
+            result.StatusCode = xmlDoc.GetElementsByTagName("VerificaSolicitudDescargaResult")[0]
+                ?.Attributes?["CodEstatus"]?.Value;
+
+            result.Message = xmlDoc.GetElementsByTagName("VerificaSolicitudDescargaResult")[0]
+                ?.Attributes?["Mensaje"]?.Value;
+
+            result.CfdiQty = xmlDoc.GetElementsByTagName("VerificaSolicitudDescargaResult")[0]
+                ?.Attributes?["NumeroCFDIs"]?.Value;
+
+            result.CodeStatusRequest = xmlDoc.GetElementsByTagName("VerificaSolicitudDescargaResult")[0]
+                ?.Attributes?["CodigoEstadoSolicitud"]?.Value;
+
+            result.StatusRequest = xmlDoc.GetElementsByTagName("VerificaSolicitudDescargaResult")[0]
+                ?.Attributes?["EstadoSolicitud"]?.Value;
+
+
+            // 1	Aceptada
+            // 2	En proceso
+            // 3	Terminada
+            // 4	Error
+            // 5	Rechazada
+            // 6	Vencida
+            if (result.CodeStatusRequest is not "3") return result;
+
+
+            var packageList = xmlDoc.GetElementsByTagName("IdsPaquetes");
+
+            //add all packageids from raw response to result object
+            for (var i = 0; i < packageList.Count; i++)
+                result.PackagesIds.Add(packageList[i]?.InnerXml ?? string.Empty);
+
+            //Revove empty packages (if exist)
+            result.PackagesIds.RemoveAll(x => x.Equals(string.Empty));
+
+            //Ensure has cfdi and status "terminada".
+            result.IsSuccess = result.CodeStatusRequest is "3" && result.PackagesIds.Count > 0;
 
             return result;
         }

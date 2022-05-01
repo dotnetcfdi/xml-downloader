@@ -4,7 +4,7 @@ namespace XmlDownloader.Core.Services.Query
 {
     public class QueryResult : Result, IHasSuccessResponse
     {
-        public string? RequestId { get; set; }
+        public string? RequestUuid { get; set; }
         public bool IsSuccess { get; set; }
     }
 }

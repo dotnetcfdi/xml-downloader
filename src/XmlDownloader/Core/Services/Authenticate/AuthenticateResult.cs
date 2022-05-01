@@ -5,7 +5,7 @@ namespace XmlDownloader.Core.Services.Authenticate
     /// <summary>
     /// Define token 
     /// </summary>
-    public class AuthenticateResult: IHasSuccessResponse
+    public class AuthenticateResult : IHasSuccessResponse
     {
         public DateTime ValidFrom { get; set; }
         public DateTime ValidTo { get; set; }
@@ -15,7 +15,17 @@ namespace XmlDownloader.Core.Services.Authenticate
 
         public bool IsValid()
         {
-            throw new NotImplementedException();
+            return !IsEmptyValue() && !IsExpired();
+        }
+
+        public bool IsEmptyValue()
+        {
+            return string.IsNullOrEmpty(Value);
+        }
+
+        public bool IsExpired()
+        {
+            return ValidTo <= DateTime.UtcNow;
         }
     }
 }
