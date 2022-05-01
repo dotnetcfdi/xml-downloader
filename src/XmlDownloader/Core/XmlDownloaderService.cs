@@ -63,4 +63,22 @@ public class XmlDownloaderService
 
         return queryResult;
     }
+
+    public async Task<QueryResult> Query(QueryParameters parameters, AuthenticateResult token)
+    {
+        var service = new QueryService(soapEnvelopeBuilder);
+
+
+        var queryResult = await service.Query(
+            parameters.StartDate.ToSatFormat(),
+            parameters.EndDate.ToSatFormat(),
+            parameters.EmitterRfc,
+            parameters.ReceiverRfc,
+            parameters.RequestType.ToString(),
+            parameters.DownloadType.ToString(),
+            token);
+
+
+        return queryResult;
+    }
 }
