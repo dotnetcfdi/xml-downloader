@@ -35,14 +35,13 @@ public class SoapEnvelopeBuilder
             </u:Timestamp>";
 
 
-        var digest = credential.CreateHash(toDigest.CleanXml());
+        var digest = credential.CreateHash(toDigest.Clean());
 
 
         var canonicalSignedInfo = CreateCanonicalSignedInfoXml(digest);
 
-        var signature = credential.SignData(canonicalSignedInfo.CleanXml()).ToBase64String();
+        var signature = credential.SignData(canonicalSignedInfo.Clean()).ToBase64String();
 
-        var signatureValue = CreateSignatureValueXml(signature);
 
         #region Comments
 
@@ -99,7 +98,7 @@ public class SoapEnvelopeBuilder
                         </o:BinarySecurityToken>
                         <Signature xmlns=""http://www.w3.org/2000/09/xmldsig#"">
                            {canonicalSignedInfo}
-                            {signatureValue}
+                            <SignatureValue>{signature}</SignatureValue>
 				            <KeyInfo>
 					            <o:SecurityTokenReference>
 						            <o:Reference ValueType=""http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-x509-token-profile-1.0#X509v3"" URI=""#{securityTokenId}""/>
@@ -113,7 +112,7 @@ public class SoapEnvelopeBuilder
 	            </s:Body>
             </s:Envelope>";
 
-        return soapEnvelope.CleanXml();
+        return soapEnvelope.Clean();
     }
 
 
@@ -123,8 +122,12 @@ public class SoapEnvelopeBuilder
         var signerRfc = credential.Certificate.Rfc;
 
 
-        var toDigest =
-            @$"<des:SolicitaDescarga xmlns:des=""http://DescargaMasivaTerceros.sat.gob.mx\"">
+        var toDigestXml = downloadType.Equals(DownloadType.Emitted.ToString()) ?
+            @$"<des:SolicitaDescarga xmlns:des=""http://DescargaMasivaTerceros.sat.gob.mx"">
+	            <des:solicitud RfcSolicitante=""{signerRfc}"" FechaInicial=""{startDate}"" FechaFinal=""{endDate}"" TipoSolicitud=""{requestType} RfcEmisor=""{emitterRfc}"">
+	            </des:solicitud>
+            </des:SolicitaDescarga>" :
+            @$"<des:SolicitaDescarga xmlns:des=""http://DescargaMasivaTerceros.sat.gob.mx"">
 	            <des:solicitud RfcSolicitante=""{signerRfc}"" FechaInicial=""{startDate}"" FechaFinal=""{endDate}"" TipoSolicitud=""{requestType}"">
 		            <des:RfcReceptores>
 			            <des:RfcReceptor>{receiverRfc}</des:RfcReceptor>
@@ -132,14 +135,27 @@ public class SoapEnvelopeBuilder
 	            </des:solicitud>
             </des:SolicitaDescarga>";
 
-        var digest = credential.CreateHash(toDigest.CleanXml());
 
-        var canonicalSignedInfo = CreateCanonicalSignedInfoXml(digest);
+        var digestValue = credential.CreateHash(toDigestXml.Clean());
 
-        var signature = credential.SignData(canonicalSignedInfo.CleanXml()).ToBase64String();
+        var canonicalSignedInfo = CreateCanonicalSignedInfoXml(digestValue);
+
+        var signatureValue = credential.SignData(canonicalSignedInfo.Clean()).ToBase64String();
+
+        var signatureXml = CreateSignatureXml(digestValue, signatureValue);
 
 
-        var soapEnvelope =
+        var rawRequest = downloadType.Equals(DownloadType.Emitted.ToString()) ?
+            @$"<s:Envelope xmlns:s=""http://schemas.xmlsoap.org/soap/envelope/"" xmlns:u=""http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-utility-1.0.xsd"" xmlns:des=""http://DescargaMasivaTerceros.sat.gob.mx"" xmlns:xd=""http://www.w3.org/2000/09/xmldsig#"">
+	                <s:Header/>
+	                <s:Body>
+		                <des:SolicitaDescarga>
+			                <des:solicitud RfcSolicitante=""{signerRfc}"" FechaInicial=""{startDate}"" FechaFinal=""{endDate}"" TipoSolicitud=""{requestType}"" RfcEmisor=""{emitterRfc}"">
+				                {signatureXml}
+			                </des:solicitud>
+		                </des:SolicitaDescarga>
+	                </s:Body>
+                </s:Envelope>" :
             @$"<s:Envelope xmlns:s=""http://schemas.xmlsoap.org/soap/envelope/"" xmlns:u=""http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-utility-1.0.xsd"" xmlns:des=""http://DescargaMasivaTerceros.sat.gob.mx"" xmlns:xd=""http://www.w3.org/2000/09/xmldsig#"">
 	                <s:Header/>
 	                <s:Body>
@@ -148,36 +164,14 @@ public class SoapEnvelopeBuilder
 				                <des:RfcReceptores>
 					                <des:RfcReceptor>{receiverRfc}</des:RfcReceptor>
 				                </des:RfcReceptores>
-				                <Signature xmlns=""http://www.w3.org/2000/09/xmldsig#"">
-					                <SignedInfo>
-						                <CanonicalizationMethod Algorithm=""http://www.w3.org/2001/10/xml-exc-c14n#""/>
-						                <SignatureMethod Algorithm=""http://www.w3.org/2000/09/xmldsig#rsa-sha1""/>
-						                <Reference URI=""#_0"">
-							                <Transforms>
-								                <Transform Algorithm=""http://www.w3.org/2001/10/xml-exc-c14n#""/>
-							                </Transforms>
-							                <DigestMethod Algorithm=""http://www.w3.org/2000/09/xmldsig#sha1""/>
-							                <DigestValue>{digest}</DigestValue>
-						                </Reference>
-					                </SignedInfo>
-					                <SignatureValue>{signature}</SignatureValue>
-					                <KeyInfo>
-						                <X509Data>
-							                <X509IssuerSerial>
-								                <X509IssuerName>{credential.Certificate.Issuer}</X509IssuerName>
-								                <X509SerialNumber>{credential.Certificate.SerialNumber}</X509SerialNumber>
-							                </X509IssuerSerial>
-							                <X509Certificate>{credential.Certificate.RawDataBytes.ToBase64String()}</X509Certificate>
-						                </X509Data>
-					                </KeyInfo>
-				                </Signature>
+				                {signatureXml}
 			                </des:solicitud>
 		                </des:SolicitaDescarga>
 	                </s:Body>
                 </s:Envelope>";
 
 
-        return soapEnvelope.CleanXml();
+        return rawRequest.Clean();
     }
 
     #region Builder Helpers
@@ -205,9 +199,36 @@ public class SoapEnvelopeBuilder
         return xml;
     }
 
-    private static string CreateSignatureValueXml(string signature)
+
+    private string CreateSignatureXml(string digestValue, string signatureValue)
     {
-        return $"<SignatureValue>{signature}</SignatureValue>";
+        var xml =
+            @$"<Signature xmlns=""http://www.w3.org/2000/09/xmldsig#"">
+					<SignedInfo>
+						<CanonicalizationMethod Algorithm=""http://www.w3.org/2001/10/xml-exc-c14n#""/>
+						<SignatureMethod Algorithm=""http://www.w3.org/2000/09/xmldsig#rsa-sha1""/>
+                        <Reference URI=""#_0"">
+							<Transforms>
+								<Transform Algorithm=""http://www.w3.org/2001/10/xml-exc-c14n#""/>
+							</Transforms>
+							<DigestMethod Algorithm=""http://www.w3.org/2000/09/xmldsig#sha1""/>
+							<DigestValue>{digestValue}</DigestValue>
+						</Reference>
+					</SignedInfo>
+					<SignatureValue>{signatureValue}</SignatureValue>
+					<KeyInfo>
+						<X509Data>
+							<X509IssuerSerial>
+								<X509IssuerName>{credential.Certificate.Issuer}</X509IssuerName>
+								<X509SerialNumber>{credential.Certificate.SerialNumber}</X509SerialNumber>
+							</X509IssuerSerial>
+							<X509Certificate>{credential.Certificate.RawDataBytes.ToBase64String()}</X509Certificate>
+						</X509Data>
+					</KeyInfo>
+			</Signature>";
+
+
+        return xml.Clean();
     }
 
     #endregion

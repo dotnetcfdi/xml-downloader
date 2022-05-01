@@ -53,10 +53,10 @@ public class XmlDownloaderService
         var queryParameters = new QueryParameters();
         queryParameters.StartDate = new DateTime(2018, 12, 01, 0, 0, 0);
         queryParameters.EndDate = new DateTime(2018, 12, 02, 23, 59, 59);
-        queryParameters.EmitterRfc = null;
-        queryParameters.ReceiverRfc = "DGE131017IP1";
+        queryParameters.EmitterRfc = "DGE131017IP1";
+        queryParameters.ReceiverRfc = null;
         queryParameters.RequestType = RequestType.CFDI;
-        queryParameters.DownloadType = DownloadType.Received;
+        queryParameters.DownloadType = DownloadType.Emitted;
 
 
         var queryResult = await service.Query(
@@ -67,7 +67,6 @@ public class XmlDownloaderService
             queryParameters.RequestType.ToString(),
             queryParameters.DownloadType.ToString()
         );
-
 
 
         return queryResult;

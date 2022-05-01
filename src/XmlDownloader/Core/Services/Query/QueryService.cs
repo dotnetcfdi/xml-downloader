@@ -48,6 +48,9 @@ namespace XmlDownloader.Core.Services.Query
             var internalResponse = await InternalHttpClient.SendAsync(internalRequest);
 
 
+            File.WriteAllText($"{internalResponse.EndPointName}-Request.xml", internalResponse.InternalRequest.RawRequest);
+            File.WriteAllText($"{internalResponse.EndPointName}-Response.xml", internalResponse.RawResponse);
+
             return new QueryResult();
         }
     }

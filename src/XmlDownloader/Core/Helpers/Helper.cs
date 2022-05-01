@@ -164,7 +164,7 @@ namespace XmlDownloader.Core.Helpers
         /// </summary>
         /// <param name="str"></param>
         /// <returns>cleaned str</returns>
-        public static string CleanXml(this string str)
+        public static string Clean(this string str)
         {
             #region Comments
 
