@@ -1,6 +1,7 @@
 ﻿using System.Text.RegularExpressions;
 using System.Web;
 using System.Xml;
+using System.Xml.Linq;
 using System.Xml.Serialization;
 using XmlDownloader.Core.Common;
 using XmlDownloader.Core.Models;
@@ -219,6 +220,16 @@ namespace XmlDownloader.Core.Helpers
         public static string ToStringRequestType(this RequestType enumType)
         {
             return enumType.ToString();
+        }
+
+
+        private static void TraverseNodes(XDocument xml, params string[] elements)
+        {
+
+            var matchingElements = xml.Descendants()
+                .Where(x => x.Attribute("foo") != null);
+
+          
         }
     }
 }

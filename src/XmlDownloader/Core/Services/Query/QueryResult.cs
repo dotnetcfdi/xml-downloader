@@ -8,6 +8,7 @@ namespace XmlDownloader.Core.Services.Query
 {
     public class QueryResult
     {
-
+        public string? StatusCode { get; set; }
+        public string? RequestId { get; set; }
     }
 }
