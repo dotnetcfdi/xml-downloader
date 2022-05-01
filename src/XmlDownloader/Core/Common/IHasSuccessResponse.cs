@@ -3,11 +3,10 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using XmlDownloader.Core.Common;
 
-namespace XmlDownloader.Core.Services.Download
+namespace XmlDownloader.Core.Common
 {
-    public class DownloadResult : Result, IHasSuccessResponse
+    public interface IHasSuccessResponse
     {
         public bool IsSuccess { get; set; }
     }

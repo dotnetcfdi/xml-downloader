@@ -1,17 +1,16 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using XmlDownloader.Core.Common;
 
-namespace XmlDownloader.Core.Models
+namespace XmlDownloader.Core.Services.Authenticate
 {
-    public class Token
+    /// <summary>
+    /// Define token 
+    /// </summary>
+    public class AuthenticateResult: IHasSuccessResponse
     {
         public DateTime ValidFrom { get; set; }
         public DateTime ValidTo { get; set; }
         public string? Value { get; set; }
-        public bool IsSuccessAuthentication { get; set; }
+        public bool IsSuccess { get; set; }
         public string? ErrorMessage { get; set; }
 
         public bool IsValid()

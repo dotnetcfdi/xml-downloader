@@ -7,6 +7,7 @@ using XmlDownloader.Core.Builder;
 using XmlDownloader.Core.Common;
 using XmlDownloader.Core.Helpers;
 using XmlDownloader.Core.Models;
+using XmlDownloader.Core.Services.Authenticate;
 using XmlDownloader.Core.SoapClient;
 
 namespace XmlDownloader.Core.Services.Query
@@ -21,7 +22,7 @@ namespace XmlDownloader.Core.Services.Query
         }
 
         public async Task<QueryResult> Query(string startDate, string endDate, string? emitterRfc, string? receiverRfc,
-            string requestType, string downloadType, Token token)
+            string requestType, string downloadType, AuthenticateResult token)
         {
             var rawRequest = soapEnvelopeBuilder.BuildQuery(
                 startDate,
@@ -53,6 +54,10 @@ namespace XmlDownloader.Core.Services.Query
                 internalResponse?.InternalRequest?.RawRequest);
             await File.WriteAllTextAsync($"{internalResponse?.EndPointName}-Response.xml",
                 internalResponse?.RawResponse);
+
+
+            var result = Helper.GetQueryResult(internalResponse?.RawResponse);
+
 
             return new QueryResult();
         }

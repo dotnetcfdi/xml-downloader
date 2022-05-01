@@ -7,6 +7,8 @@ using XmlDownloader.Core.Common;
 using XmlDownloader.Core.Models;
 using XmlDownloader.Core.Models.SatModels.Authenticate.Failure;
 using XmlDownloader.Core.Models.SatModels.Authenticate.Success;
+using XmlDownloader.Core.Services.Authenticate;
+using XmlDownloader.Core.Services.Query;
 
 namespace XmlDownloader.Core.Helpers
 {
@@ -117,49 +119,6 @@ namespace XmlDownloader.Core.Helpers
         #endregion
 
 
-        #region LinqToXml
-
-        #endregion
-
-        public static Token GetTokenByRawResponse(string? rawResponse)
-        {
-            var token = new Token();
-
-
-            if (string.IsNullOrEmpty(rawResponse))
-                return token;
-
-            var xml = new XmlDocument();
-            xml.LoadXml(rawResponse);
-
-
-            var created = xml?.DocumentElement?.GetElementsByTagName("u:Created")[0]?.InnerText;
-
-            var expires = xml?.DocumentElement?.GetElementsByTagName("u:Expires")[0]?.InnerText;
-
-            var autenticaResult = xml?.DocumentElement?.GetElementsByTagName("AutenticaResult")[0]?.InnerText;
-
-
-            if (created is null | expires is null | autenticaResult is null)
-            {
-                var faultcode = xml?.DocumentElement?.GetElementsByTagName("faultcode")[0]?.InnerText;
-                var faultstring = xml?.DocumentElement?.GetElementsByTagName("faultstring")[0]?.InnerText;
-
-                token.ErrorMessage = $"{faultcode}: {faultstring}";
-                return token;
-            }
-
-
-            token.ValidFrom = Convert.ToDateTime(created);
-            token.ValidTo = Convert.ToDateTime(expires);
-            token.Value = $"WRAP access_token=\"{HttpUtility.UrlDecode(autenticaResult)}\"";
-            token.IsSuccessAuthentication = true;
-
-
-            return token;
-        }
-
-
         /// <summary>
         /// Remove horizontal spaces at beginning, carriage return (CR), Line Feed (LF) and xml declaration on its own line.
         /// </summary>
@@ -217,19 +176,75 @@ namespace XmlDownloader.Core.Helpers
         }
 
 
-        public static string ToStringRequestType(this RequestType enumType)
+        public static AuthenticateResult GetAuthenticateResult(string? rawResponse)
         {
-            return enumType.ToString();
+            var token = new AuthenticateResult();
+
+            // AuthenticateResult
+            if (string.IsNullOrEmpty(rawResponse))
+                return token;
+
+            var xml = new XmlDocument();
+            xml.LoadXml(rawResponse);
+
+
+            var created = xml?.DocumentElement?.GetElementsByTagName("u:Created")[0]?.InnerText;
+
+            var expires = xml?.DocumentElement?.GetElementsByTagName("u:Expires")[0]?.InnerText;
+
+            var autenticaResult = xml?.DocumentElement?.GetElementsByTagName("AutenticaResult")[0]?.InnerText;
+
+
+            if (created is null | expires is null | autenticaResult is null)
+            {
+                var faultcode = xml?.DocumentElement?.GetElementsByTagName("faultcode")[0]?.InnerText;
+                var faultstring = xml?.DocumentElement?.GetElementsByTagName("faultstring")[0]?.InnerText;
+
+                token.ErrorMessage = $"{faultcode}: {faultstring}";
+                return token;
+            }
+
+
+            token.ValidFrom = Convert.ToDateTime(created);
+            token.ValidTo = Convert.ToDateTime(expires);
+            token.Value = $"WRAP access_token=\"{HttpUtility.UrlDecode(autenticaResult)}\"";
+            token.IsSuccess = true;
+
+
+            return token;
         }
 
-
-        private static void TraverseNodes(XDocument xml, params string[] elements)
+        public static QueryResult GetQueryResult(string? rawResponse)
         {
+            var result = new QueryResult();
 
-            var matchingElements = xml.Descendants()
-                .Where(x => x.Attribute("foo") != null);
+            if (string.IsNullOrEmpty(rawResponse)) return result;
 
-          
+
+            var xmlDoc = new XmlDocument();
+            xmlDoc.LoadXml(rawResponse);
+
+
+            var statusCode = xmlDoc.GetElementsByTagName("SolicitaDescargaResult")[0]
+                ?.Attributes?["CodEstatus"]
+                ?.Value;
+
+            var message =
+                xmlDoc.GetElementsByTagName("SolicitaDescargaResult")[0]?.Attributes?["Mensaje"]?.Value;
+
+            var requestUuid = xmlDoc.GetElementsByTagName("SolicitaDescargaResult")[0]
+                ?.Attributes?["IdSolicitud"]
+                ?.Value;
+
+
+            if (statusCode is null || message is null || requestUuid is null) return result;
+
+            result.RequestId = requestUuid;
+            result.StatusCode = statusCode;
+            result.Message = message;
+            result.IsSuccess = string.Equals(statusCode, "5000");
+
+            return result;
         }
     }
 }

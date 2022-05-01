@@ -1,14 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using XmlDownloader.Core.Common;
 
 namespace XmlDownloader.Core.Services.Query
 {
-    public class QueryResult
+    public class QueryResult : Result, IHasSuccessResponse
     {
-        public string? StatusCode { get; set; }
         public string? RequestId { get; set; }
+        public bool IsSuccess { get; set; }
     }
 }

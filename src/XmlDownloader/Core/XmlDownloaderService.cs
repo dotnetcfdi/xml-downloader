@@ -13,9 +13,9 @@ public class XmlDownloaderService
     private readonly ICredential credential;
     private readonly SoapEnvelopeBuilder soapEnvelopeBuilder;
 
-    public Token? Token { get; set; }
+    public AuthenticateResult? Token { get; set; }
 
-    public XmlDownloaderService(ICredential credential, Token? token = null)
+    public XmlDownloaderService(ICredential credential, AuthenticateResult? token = null)
     {
         this.credential = credential;
         this.soapEnvelopeBuilder = new SoapEnvelopeBuilder(credential);
@@ -29,7 +29,7 @@ public class XmlDownloaderService
     /// 
     /// </summary>
     /// <returns>Token</returns>
-    public async Task<Token> GetCurrentToken()
+    public async Task<AuthenticateResult> GetCurrentToken()
     {
         if (Token is null || !Token.IsValid())
             Token = await Authenticate();
@@ -37,7 +37,7 @@ public class XmlDownloaderService
         return Token;
     }
 
-    public async Task<Token> Authenticate()
+    public async Task<AuthenticateResult> Authenticate()
     {
         var service = new AuthenticateService(soapEnvelopeBuilder);
         var token = await service.Authenticate();
@@ -46,7 +46,7 @@ public class XmlDownloaderService
     }
 
     public async Task<QueryResult> Query(string startDate, string endDate, string? emitterRfc, string? receiverRfc,
-        string requestType, string downloadType, Token token)
+        string requestType, string downloadType, AuthenticateResult token)
     {
         var service = new QueryService(soapEnvelopeBuilder);
 

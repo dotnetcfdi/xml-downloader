@@ -1,14 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Text.RegularExpressions;
-using System.Threading.Tasks;
-using System.Xml;
-using XmlDownloader.Core.Builder;
+﻿using XmlDownloader.Core.Builder;
 using XmlDownloader.Core.Common;
 using XmlDownloader.Core.Helpers;
-using XmlDownloader.Core.Models;
 using XmlDownloader.Core.SoapClient;
 
 namespace XmlDownloader.Core.Services.Authenticate
@@ -23,14 +15,13 @@ namespace XmlDownloader.Core.Services.Authenticate
         }
 
 
-        public async Task<Token> Authenticate()
+        public async Task<AuthenticateResult> Authenticate()
         {
             //var date = new DateTime(2022, 4, 25, 19, 0, 0);
             //var tokenPeriod = TokenPeriod.Create(date);
 
             var rawRequest = soapEnvelopeBuilder.BuildAuthenticate();
 
-          
 
             var endpoint = Helper.GetAuthenticateEndPoint();
 
@@ -53,12 +44,10 @@ namespace XmlDownloader.Core.Services.Authenticate
             await File.WriteAllTextAsync($"{internalResponse?.EndPointName}-Response.xml",
                 internalResponse?.RawResponse);
 
+            //token
+            var result = Helper.GetAuthenticateResult(internalResponse?.RawResponse);
 
-
-
-            var token = Helper.GetTokenByRawResponse(internalResponse.RawResponse);
-
-            return token;
+            return result;
         }
     }
 }
