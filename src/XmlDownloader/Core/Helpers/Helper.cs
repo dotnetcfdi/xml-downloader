@@ -151,7 +151,7 @@ namespace XmlDownloader.Core.Helpers
 
             token.ValidFrom = Convert.ToDateTime(created);
             token.ValidTo = Convert.ToDateTime(expires);
-            token.Value = $"WRAP access_token={HttpUtility.UrlDecode(autenticaResult)}";
+            token.Value = $"WRAP access_token=\"{HttpUtility.UrlDecode(autenticaResult)}\"";
             token.IsSuccessAuthentication = true;
 
 
