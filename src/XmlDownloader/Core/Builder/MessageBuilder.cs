@@ -25,13 +25,15 @@ public static class MessageBuilder
             internalRequest.Url);
 
         request.Headers.Add("SOAPAction", internalRequest.SoapAction);
+
+        if (internalRequest.Token is not null)
+            request.Headers.Add("Authorization", internalRequest.Token.Value);
+
         request.Content = content;
 
         return request;
     }
 
-
-  
 
     public static async Task<InternalResponse> BuildInternalResponseMessage(InternalRequest internalRequest,
         HttpResponseMessage response)

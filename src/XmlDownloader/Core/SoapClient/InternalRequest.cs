@@ -1,6 +1,7 @@
 ﻿using System.Security.AccessControl;
 using System.Text;
 using XmlDownloader.Core.Common;
+using XmlDownloader.Core.Models;
 
 namespace XmlDownloader.Core.SoapClient
 {
@@ -16,6 +17,7 @@ namespace XmlDownloader.Core.SoapClient
 
         public List<KeyValuePair<string, string>> Headers { get; set; } = new();
 
+        public Token? Token { get; set; }
 
         public void AddHeader(string key, string value)
         {

@@ -45,28 +45,20 @@ public class XmlDownloaderService
         return token;
     }
 
-    public async Task<QueryResult> Query()
+    public async Task<QueryResult> Query(string startDate, string endDate, string? emitterRfc, string? receiverRfc,
+        string requestType, string downloadType, Token token)
     {
         var service = new QueryService(soapEnvelopeBuilder);
 
 
-        var queryParameters = new QueryParameters();
-        queryParameters.StartDate = new DateTime(2018, 12, 01, 0, 0, 0);
-        queryParameters.EndDate = new DateTime(2018, 12, 02, 23, 59, 59);
-        queryParameters.EmitterRfc = "DGE131017IP1";
-        queryParameters.ReceiverRfc = null;
-        queryParameters.RequestType = RequestType.CFDI;
-        queryParameters.DownloadType = DownloadType.Emitted;
-
-
         var queryResult = await service.Query(
-            queryParameters.StartDate.ToSatFormat(),
-            queryParameters.EndDate.ToSatFormat(),
-            queryParameters.EmitterRfc,
-            queryParameters.ReceiverRfc,
-            queryParameters.RequestType.ToString(),
-            queryParameters.DownloadType.ToString()
-        );
+            startDate,
+            endDate,
+            emitterRfc,
+            receiverRfc,
+            requestType,
+            downloadType,
+            token);
 
 
         return queryResult;
