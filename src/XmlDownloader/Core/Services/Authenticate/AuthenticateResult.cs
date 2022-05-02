@@ -25,7 +25,7 @@ namespace XmlDownloader.Core.Services.Authenticate
 
         public bool IsExpired()
         {
-            return ValidTo <= DateTime.UtcNow;
+            return ValidTo <= DateTime.Now;
         }
     }
 }

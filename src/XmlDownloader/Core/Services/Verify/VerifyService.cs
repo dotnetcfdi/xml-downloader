@@ -35,7 +35,7 @@ namespace XmlDownloader.Core.Services.Verify
                 SoapAction = endpoint.SoapAction,
                 RawRequest = rawRequest,
                 HttpMethod = HttpMethod.Post,
-                EndPointName = EndPointName.Query,
+                EndPointName = EndPointName.Verify,
                 Token = token
             };
 

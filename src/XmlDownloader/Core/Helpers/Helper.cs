@@ -104,7 +104,7 @@ namespace XmlDownloader.Core.Helpers
 
         public static Endpoint GetVerifyEndPoint()
         {
-            return GetEndPoint(EndPointName.Query, EndPointType.OrdinaryCfdi);
+            return GetEndPoint(EndPointName.Verify, EndPointType.OrdinaryCfdi);
         }
 
         public static List<Endpoint> GetAllEndPoints(EndPointType type)
@@ -284,7 +284,7 @@ namespace XmlDownloader.Core.Helpers
             // 4	Error
             // 5	Rechazada
             // 6	Vencida
-            if (result.CodeStatusRequest is not "3") return result;
+            if (result.StatusRequest is not "3") return result;
 
 
             var packageList = xmlDoc.GetElementsByTagName("IdsPaquetes");
@@ -297,7 +297,7 @@ namespace XmlDownloader.Core.Helpers
             result.PackagesIds.RemoveAll(x => x.Equals(string.Empty));
 
             //Ensure has cfdi and status "terminada".
-            result.IsSuccess = result.CodeStatusRequest is "3" && result.PackagesIds.Count > 0;
+            result.IsSuccess = result.StatusRequest is "3" && result.PackagesIds.Count > 0;
 
             return result;
         }
