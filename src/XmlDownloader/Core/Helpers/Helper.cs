@@ -8,6 +8,7 @@ using XmlDownloader.Core.Models;
 using XmlDownloader.Core.Models.SatModels.Authenticate.Failure;
 using XmlDownloader.Core.Models.SatModels.Authenticate.Success;
 using XmlDownloader.Core.Services.Authenticate;
+using XmlDownloader.Core.Services.Download;
 using XmlDownloader.Core.Services.Query;
 using XmlDownloader.Core.Services.Verify;
 
@@ -105,6 +106,11 @@ namespace XmlDownloader.Core.Helpers
         public static Endpoint GetVerifyEndPoint()
         {
             return GetEndPoint(EndPointName.Verify, EndPointType.OrdinaryCfdi);
+        }
+
+        public static Endpoint GetDownloadEndPoint()
+        {
+            return GetEndPoint(EndPointName.Download, EndPointType.OrdinaryCfdi);
         }
 
         public static List<Endpoint> GetAllEndPoints(EndPointType type)
@@ -298,6 +304,35 @@ namespace XmlDownloader.Core.Helpers
 
             //Ensure has cfdi and status "terminada".
             result.IsSuccess = result.StatusRequest is "3" && result.PackagesIds.Count > 0;
+
+            return result;
+        }
+
+        public static DownloadResult GetDownloadResult(string? packageId, string? rawResponse)
+        {
+            var result = new DownloadResult();
+
+            if (string.IsNullOrEmpty(rawResponse)) return result;
+
+
+            var xmlDoc = new XmlDocument();
+            xmlDoc.LoadXml(rawResponse);
+
+
+            result.StatusCode = xmlDoc.GetElementsByTagName("h:respuesta")[0]
+                ?.Attributes?["CodEstatus"]?.Value;
+
+            result.Message = xmlDoc.GetElementsByTagName("h:respuesta")[0]
+                ?.Attributes?["Mensaje"]?.Value;
+
+            result.PackageId = packageId;
+
+            result.PackageBase64 = xmlDoc.GetElementsByTagName("Paquete")[0]?.InnerXml;
+
+
+            //Ensure has cfdi and status "terminada".
+            result.IsSuccess = result.PackageId is not null && result.PackageBase64 is not null;
+
 
             return result;
         }

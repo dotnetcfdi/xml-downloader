@@ -4,6 +4,7 @@ using XmlDownloader.Core.Common;
 using XmlDownloader.Core.Helpers;
 using XmlDownloader.Core.Models;
 using XmlDownloader.Core.Services.Authenticate;
+using XmlDownloader.Core.Services.Download;
 using XmlDownloader.Core.Services.Query;
 using XmlDownloader.Core.Services.Verify;
 
@@ -148,5 +149,20 @@ public class XmlDownloaderService
         var result = await verifyService.Verify(requestUuid, token);
 
         return result;
+    }
+
+
+    public async Task<DownloadResult> Download(string? packageId)
+    {
+        if (string.IsNullOrEmpty(packageId))
+            throw new ArgumentNullException(nameof(packageId));
+
+
+        var token = await GetCurrentToken();
+
+        var downloadService = new DownloadService(soapEnvelopeBuilder);
+        var downloadResult = await downloadService.Download(packageId, token);
+
+        return downloadResult;
     }
 }

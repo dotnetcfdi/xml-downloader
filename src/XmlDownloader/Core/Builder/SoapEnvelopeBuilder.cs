@@ -168,6 +168,40 @@ public class SoapEnvelopeBuilder
         return rawRequest.Clean();
     }
 
+    public string? BuildDownload(string packageId)
+    {
+        var signerRfc = credential.Certificate.Rfc;
+
+        var toDigestXml =
+            @$"<des:PeticionDescargaMasivaTercerosEntrada xmlns:des=""http://DescargaMasivaTerceros.sat.gob.mx"">
+	                <des:peticionDescarga IdPaquete=""{packageId}"" RfcSolicitante=\""{signerRfc}""></des:peticionDescarga>
+            </des:PeticionDescargaMasivaTercerosEntrada>";
+
+
+        var digestValue = credential.CreateHash(toDigestXml.Clean());
+
+        var canonicalSignedInfo = CreateCanonicalSignedInfoXml(digestValue);
+
+        var signatureValue = credential.SignData(canonicalSignedInfo.Clean()).ToBase64String();
+
+        var signatureXml = CreateSignatureXml(digestValue, signatureValue);
+
+
+        var rawRequest =
+            @$"<s:Envelope xmlns:s=""http://schemas.xmlsoap.org/soap/envelope/"" xmlns:u=""http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-utility-1.0.xsd"" xmlns:des=""http://DescargaMasivaTerceros.sat.gob.mx"" xmlns:xd=""http://www.w3.org/2000/09/xmldsig#"">
+	                <s:Header/>
+	                <s:Body>
+		                <des:PeticionDescargaMasivaTercerosEntrada>
+			                <des:peticionDescarga IdPaquete=""{packageId}"" RfcSolicitante=""{signerRfc}"">
+				                {signatureXml}	
+			                </des:peticionDescarga>
+		                </des:PeticionDescargaMasivaTercerosEntrada>
+	                </s:Body>
+            </s:Envelope>";
+
+        return rawRequest.Clean();
+    }
+
 
     #region Builder Helpers
 
