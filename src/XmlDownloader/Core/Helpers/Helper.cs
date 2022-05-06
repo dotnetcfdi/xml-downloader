@@ -1,4 +1,5 @@
-﻿using System.Text.RegularExpressions;
+﻿using System.Text.Json;
+using System.Text.RegularExpressions;
 using System.Web;
 using System.Xml;
 using System.Xml.Linq;
@@ -331,10 +332,88 @@ namespace XmlDownloader.Core.Helpers
 
 
             //Ensure has cfdi and status "terminada".
-            result.IsSuccess = result.PackageId is not null && result.PackageBase64 is not null;
+            result.IsSuccess = result.PackageId is not null && !string.IsNullOrEmpty(result.PackageBase64);
 
 
             return result;
         }
+
+
+        #region Log
+
+        public static void SaveLog(string strContent)
+        {
+            SaveLog("info", new Exception(strContent));
+        }
+
+        public static void SaveLog(string strTitle, Exception ex)
+        {
+            try
+            {
+                var filePath = Path.Combine(Settings.LogsDirectory, DateTime.Now.ToString("yyyyMMdd") + ".txt");
+
+                if (!Directory.Exists(Settings.LogsDirectory))
+                    Directory.CreateDirectory(Settings.LogsDirectory);
+
+
+                if (!File.Exists(filePath))
+                {
+                    var FsCreate = new FileStream(filePath, FileMode.Create);
+                    FsCreate.Close();
+                    FsCreate.Dispose();
+                }
+
+                var FsWrite = new FileStream(filePath, FileMode.Append, FileAccess.Write);
+                var SwWrite = new StreamWriter(FsWrite);
+
+                var strContent = ex.ToString();
+
+                SwWrite.WriteLine("{0}{1}[{2:HH:mm:ss}]{3}", "--------------------------------", strTitle, DateTime.Now,
+                    "--------------------------------");
+                SwWrite.Write(strContent);
+                SwWrite.WriteLine(Environment.NewLine);
+                SwWrite.WriteLine(" ");
+                SwWrite.Flush();
+                SwWrite.Close();
+            }
+            catch
+            {
+                // ignored
+            }
+        }
+
+        #endregion
+
+
+        #region Serialization
+
+        public static string SerializeToJsonString<T>(T t)
+        {
+            var jsonString = JsonSerializer.Serialize(t, new JsonSerializerOptions {WriteIndented = true});
+            return jsonString;
+        }
+
+        public static async Task SerializeToJsonJsonFile<T>(T t, string fullPath)
+        {
+            await using var createStream = File.Create(fullPath);
+            await JsonSerializer.SerializeAsync(createStream, t, new JsonSerializerOptions() {WriteIndented = true});
+            await createStream.DisposeAsync();
+        }
+
+        public static async Task<T?> DeserializeFromJsonFile<T>(string fullPath)
+        {
+            await using var openStream = File.OpenRead(fullPath);
+            var result = await JsonSerializer.DeserializeAsync<T>(openStream);
+
+            return result;
+        }
+
+
+        public static T? DeserializeFromJsonString<T>(string stringJson)
+        {
+            return JsonSerializer.Deserialize<T>(stringJson);
+        }
+
+        #endregion
     }
 }

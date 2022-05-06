@@ -1,8 +1,7 @@
-﻿using Credencials.Core;
+﻿using System.Reflection;
+using Credencials.Core;
 using XmlDownloader.Core.Builder;
-using XmlDownloader.Core.Common;
 using XmlDownloader.Core.Helpers;
-using XmlDownloader.Core.Models;
 using XmlDownloader.Core.Services.Authenticate;
 using XmlDownloader.Core.Services.Download;
 using XmlDownloader.Core.Services.Query;
@@ -14,6 +13,8 @@ public class XmlDownloaderService
 {
     private readonly ICredential credential;
     private readonly SoapEnvelopeBuilder soapEnvelopeBuilder;
+
+
 
     public AuthenticateResult? Token { get; set; }
 
@@ -165,4 +166,7 @@ public class XmlDownloaderService
 
         return downloadResult;
     }
+
+
+    
 }
