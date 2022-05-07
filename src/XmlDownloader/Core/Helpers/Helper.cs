@@ -2,12 +2,8 @@
 using System.Text.RegularExpressions;
 using System.Web;
 using System.Xml;
-using System.Xml.Linq;
-using System.Xml.Serialization;
 using XmlDownloader.Core.Common;
 using XmlDownloader.Core.Models;
-using XmlDownloader.Core.Models.SatModels.Authenticate.Failure;
-using XmlDownloader.Core.Models.SatModels.Authenticate.Success;
 using XmlDownloader.Core.Services.Authenticate;
 using XmlDownloader.Core.Services.Download;
 using XmlDownloader.Core.Services.Query;
