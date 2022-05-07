@@ -54,12 +54,12 @@ namespace XmlDownloader.Core.Packaging
                     ReceiverRfc = fields[3],
                     ReceiverLegalName = fields[4],
                     PacRfc = fields[5],
-                    invoiceDate = fields[5],
-                    CertificationDate = fields[6],
-                    invoiceAmount = fields[7],
-                    invoiceType = fields[8],
-                    Status = fields[9],
-                    CancellationDate = fields[10]
+                    invoiceDate = fields[6],
+                    CertificationDate = fields[7],
+                    invoiceAmount = fields[8],
+                    invoiceType = fields[9],
+                    Status = fields[10],
+                    CancellationDate = fields.Length == 12 ? fields[11] : null,
                 };
 
                 metadata.Add(metadataItem);
@@ -67,7 +67,6 @@ namespace XmlDownloader.Core.Packaging
 
             return metadata;
         }
-
 
 
         #region Helpers
@@ -121,15 +120,17 @@ namespace XmlDownloader.Core.Packaging
 
         private static void EnsureDirectories()
         {
-            if (Directory.Exists(Settings.PackagesDirectory))
+            //Settings.PackagesDirectory=packDir;
+
+            if (!Directory.Exists(Settings.PackagesDirectory))
                 Directory.CreateDirectory(Settings.PackagesDirectory);
 
-          
 
-            if (Directory.Exists(Settings.WorkDirectory))
+            if (!Directory.Exists(Settings.WorkDirectory))
                 Directory.CreateDirectory(Settings.WorkDirectory);
 
-            if (Directory.Exists(Settings.LogsDirectory))
+            
+            if (!Directory.Exists(Settings.LogsDirectory))
                 Directory.CreateDirectory(Settings.LogsDirectory);
 
             ClearDirectory(Settings.WorkDirectory);
