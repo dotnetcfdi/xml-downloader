@@ -432,7 +432,7 @@ namespace XmlDownloader.Core.Helpers
 
             var comprobante = xmlSerializer.Deserialize(xmlReader) as Comprobante;
 
-            if (comprobante?.Complemento[0]?.Any is null)
+            if (comprobante?.Complemento[0].Any is null)
                 return comprobante;
 
             SerializeComplements(comprobante);
