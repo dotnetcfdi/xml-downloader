@@ -2,12 +2,18 @@
 using System.Text.RegularExpressions;
 using System.Web;
 using System.Xml;
+using System.Xml.Schema;
+using System.Xml.Serialization;
 using XmlDownloader.Core.Common;
 using XmlDownloader.Core.Models;
+using XmlDownloader.Core.Models.SatModels.Complements.Payments.Pago20;
+using XmlDownloader.Core.Models.SatModels.Complements.TFD;
+using XmlDownloader.Core.Models.SatModels.Invoicing.Cfdi40;
 using XmlDownloader.Core.Services.Authenticate;
 using XmlDownloader.Core.Services.Download;
 using XmlDownloader.Core.Services.Query;
 using XmlDownloader.Core.Services.Verify;
+using static System.Convert;
 
 namespace XmlDownloader.Core.Helpers
 {
@@ -22,7 +28,7 @@ namespace XmlDownloader.Core.Helpers
 
         #region Endpoints
 
-        private static IEnumerable<Endpoint> Endpoints { get; } = new List<Endpoint>()
+        private static IEnumerable<Endpoint> Endpoints { get; } = new List<Endpoint>
         {
             new Endpoint
             {
@@ -214,8 +220,8 @@ namespace XmlDownloader.Core.Helpers
             }
 
 
-            token.ValidFrom = Convert.ToDateTime(created);
-            token.ValidTo = Convert.ToDateTime(expires);
+            token.ValidFrom = ToDateTime(created);
+            token.ValidTo = ToDateTime(expires);
             token.Value = $"WRAP access_token=\"{HttpUtility.UrlDecode(autenticaResult)}\"";
             token.IsSuccess = true;
 
@@ -392,7 +398,7 @@ namespace XmlDownloader.Core.Helpers
         public static async Task SerializeToJsonJsonFile<T>(T t, string fullPath)
         {
             await using var createStream = File.Create(fullPath);
-            await JsonSerializer.SerializeAsync(createStream, t, new JsonSerializerOptions() {WriteIndented = true});
+            await JsonSerializer.SerializeAsync(createStream, t, new JsonSerializerOptions {WriteIndented = true});
             await createStream.DisposeAsync();
         }
 
@@ -408,6 +414,113 @@ namespace XmlDownloader.Core.Helpers
         public static T? DeserializeFromJsonString<T>(string stringJson)
         {
             return JsonSerializer.Deserialize<T>(stringJson);
+        }
+
+
+        public static Comprobante? DeserializeXml(string xmlFullPath, string version)
+        {
+            var serializer = new XmlSerializer(typeof(Comprobante),
+                new XmlRootAttribute
+                {
+                    IsNullable = false,
+                    Namespace = version.Equals("3.3") ? Settings.RootNameSpace33 : Settings.RootNameSpace40
+                });
+
+
+            var xmlSerializer = new XmlSerializer(typeof(Comprobante),
+                new XmlRootAttribute
+                {
+                    IsNullable = false,
+                    Namespace = version.Equals("3.3") ? Settings.RootNameSpace33 : Settings.RootNameSpace40
+                });
+
+            using var xmlReader = XmlReader.Create(xmlFullPath);
+
+            var comprobante = xmlSerializer.Deserialize(xmlReader) as Comprobante;
+
+
+            if (comprobante?.Complemento[0]?.Any is null) return comprobante;
+
+            foreach (var complement in comprobante.Complemento[0].Any)
+            {
+                if (complement.Name.Contains("TimbreFiscalDigital"))
+                {
+                    comprobante.TimbreFiscalDigital =
+                        DeserializeComplement<TimbreFiscalDigital>(complement.OuterXml);
+                }
+                else if (complement.Name.Contains("pago20"))
+                {
+                    comprobante.Pago20 =
+                        DeserializeComplement<Pagos>(complement.OuterXml);
+                }
+                else if (complement.Name.Contains("pago10"))
+                {
+                    comprobante.Pago10 =
+                        DeserializeComplement<Models.SatModels.Complements.Payments.Pago10.Pagos>(complement.OuterXml);
+                }
+            }
+
+            return comprobante;
+        }
+
+        private static T? DeserializeComplement<T>(string xml)
+        {
+            var xmlSerializer = new XmlSerializer(typeof(T));
+
+            using var stringReader = new StringReader(xml);
+
+            var complement = (T) xmlSerializer.Deserialize(stringReader);
+
+            return complement;
+        }
+
+        private static T Deserialize<T>(string xml)
+        {
+            var serializer = new XmlSerializer(typeof(T));
+
+            using var stringReader = new StringReader(xml);
+
+            using var xmlReader = XmlReader.Create(stringReader);
+
+            return (T) serializer.Deserialize(xmlReader);
+        }
+
+        public static Comprobante? DeserializeCfdi<T>(string xmlFullPath, string version)
+        {
+            var xmlSerializer = new XmlSerializer(typeof(Comprobante),
+                new XmlRootAttribute
+                {
+                    IsNullable = false,
+                    Namespace = version.Equals("3.3") ? Settings.RootNameSpace33 : Settings.RootNameSpace40
+                });
+
+            using var xmlReader = XmlReader.Create(xmlFullPath);
+
+            var comprobante =  xmlSerializer.Deserialize(xmlReader) as Comprobante;
+
+
+            if (comprobante?.Complemento[0]?.Any is null) return comprobante;
+
+            foreach (var complement in comprobante.Complemento[0].Any)
+            {
+                if (complement.Name.Contains("TimbreFiscalDigital"))
+                {
+                    comprobante.TimbreFiscalDigital =
+                        DeserializeComplement<TimbreFiscalDigital>(complement.OuterXml);
+                }
+                else if (complement.Name.Contains("pago20"))
+                {
+                    comprobante.Pago20 =
+                        DeserializeComplement<Pagos>(complement.OuterXml);
+                }
+                else if (complement.Name.Contains("pago10"))
+                {
+                    comprobante.Pago10 =
+                        DeserializeComplement<Models.SatModels.Complements.Payments.Pago10.Pagos>(complement.OuterXml);
+                }
+            }
+
+            return comprobante;
         }
 
         #endregion

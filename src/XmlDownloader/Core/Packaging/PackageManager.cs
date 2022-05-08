@@ -144,7 +144,7 @@ namespace XmlDownloader.Core.Packaging
 
             var files = directory.GetFiles(extensionFilter); //Getting Text files
 
-            return files.Select(file => new FileModel() {FileName = file.Name, FullFileName = file.FullName}).ToList();
+            return files.Select(file => new FileModel {FileName = file.Name, FullFileName = file.FullName}).ToList();
         }
 
         #endregion

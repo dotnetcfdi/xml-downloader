@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Credencials.Common;
+﻿using Credencials.Common;
 using Credencials.Core;
 using XmlDownloader.Core.Common;
 using XmlDownloader.Core.Helpers;

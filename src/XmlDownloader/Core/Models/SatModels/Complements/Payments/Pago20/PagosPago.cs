@@ -2,10 +2,10 @@
 
 namespace XmlDownloader.Core.Models.SatModels.Complements.Payments.Pago20
 {
-    [Serializable()]
+    [Serializable]
 
 
-    [XmlType(AnonymousType = true, Namespace = "http://www.sat.gob.mx/Pagos20")]
+    //// [XmlType(AnonymousType = true, Namespace = "http://www.sat.gob.mx/Pagos20")]
     public class PagosPago
     {
 
@@ -53,11 +53,11 @@ namespace XmlDownloader.Core.Models.SatModels.Complements.Payments.Pago20
         {
             get
             {
-                return this.doctoRelacionadoField;
+                return doctoRelacionadoField;
             }
             set
             {
-                this.doctoRelacionadoField = value;
+                doctoRelacionadoField = value;
             }
         }
 
@@ -66,209 +66,209 @@ namespace XmlDownloader.Core.Models.SatModels.Complements.Payments.Pago20
         {
             get
             {
-                return this.impuestosPField;
+                return impuestosPField;
             }
             set
             {
-                this.impuestosPField = value;
+                impuestosPField = value;
             }
         }
 
 
-        [XmlAttribute()]
+        [XmlAttribute]
         public string FechaPago
         {
             get
             {
-                return this.fechaPagoField;
+                return fechaPagoField;
             }
             set
             {
-                this.fechaPagoField = value;
+                fechaPagoField = value;
             }
         }
 
 
-        [XmlAttribute()]
+        [XmlAttribute]
         public string FormaDePagoP
         {
             get
             {
-                return this.formaDePagoPField;
+                return formaDePagoPField;
             }
             set
             {
-                this.formaDePagoPField = value;
+                formaDePagoPField = value;
             }
         }
 
 
-        [XmlAttribute()]
+        [XmlAttribute]
         public string MonedaP
         {
             get
             {
-                return this.monedaPField;
+                return monedaPField;
             }
             set
             {
-                this.monedaPField = value;
+                monedaPField = value;
             }
         }
 
 
-        [XmlAttribute()]
+        [XmlAttribute]
         public decimal TipoCambioP
         {
             get
             {
-                return this.tipoCambioPField;
+                return tipoCambioPField;
             }
             set
             {
-                this.tipoCambioPField = value;
-                this.tipoCambioPFieldSpecified = true;
+                tipoCambioPField = value;
+                tipoCambioPFieldSpecified = true;
             }
         }
 
 
-        [XmlIgnore()]
+        [XmlIgnore]
         public bool TipoCambioPSpecified
         {
             get
             {
-                return this.tipoCambioPFieldSpecified;
+                return tipoCambioPFieldSpecified;
             }
             set
             {
-                this.tipoCambioPFieldSpecified = value;
+                tipoCambioPFieldSpecified = value;
             }
         }
 
 
-        [XmlAttribute()]
+        [XmlAttribute]
         public decimal Monto
         {
             get
             {
-                return this.montoField;
+                return montoField;
             }
             set
             {
-                this.montoField = value;
+                montoField = value;
             }
         }
 
 
-        [XmlAttribute()]
+        [XmlAttribute]
         public string NumOperacion
         {
             get
             {
-                return this.numOperacionField;
+                return numOperacionField;
             }
             set
             {
-                this.numOperacionField = value;
+                numOperacionField = value;
 
             }
         }
 
 
-        [XmlAttribute()]
+        [XmlAttribute]
         public string RfcEmisorCtaOrd
         {
             get
             {
-                return this.rfcEmisorCtaOrdField;
+                return rfcEmisorCtaOrdField;
             }
             set
             {
-                this.rfcEmisorCtaOrdField = value;
+                rfcEmisorCtaOrdField = value;
             }
         }
 
 
-        [XmlAttribute()]
+        [XmlAttribute]
         public string NomBancoOrdExt
         {
             get
             {
-                return this.nomBancoOrdExtField;
+                return nomBancoOrdExtField;
             }
             set
             {
-                this.nomBancoOrdExtField = value;
+                nomBancoOrdExtField = value;
             }
         }
 
 
-        [XmlAttribute()]
+        [XmlAttribute]
         public string CtaOrdenante
         {
             get
             {
-                return this.ctaOrdenanteField;
+                return ctaOrdenanteField;
             }
             set
             {
-                this.ctaOrdenanteField = value;
+                ctaOrdenanteField = value;
             }
         }
 
 
-        [XmlAttribute()]
+        [XmlAttribute]
         public string RfcEmisorCtaBen
         {
             get
             {
-                return this.rfcEmisorCtaBenField;
+                return rfcEmisorCtaBenField;
             }
             set
             {
-                this.rfcEmisorCtaBenField = value;
+                rfcEmisorCtaBenField = value;
             }
         }
 
 
-        [XmlAttribute()]
+        [XmlAttribute]
         public string CtaBeneficiario
         {
             get
             {
-                return this.ctaBeneficiarioField;
+                return ctaBeneficiarioField;
             }
             set
             {
-                this.ctaBeneficiarioField = value;
+                ctaBeneficiarioField = value;
             }
         }
 
 
-        [XmlAttribute()]
+        [XmlAttribute]
         public string TipoCadPago
         {
             get
             {
-                return this.tipoCadPagoField;
+                return tipoCadPagoField;
             }
             set
             {
-                this.tipoCadPagoField = value;
+                tipoCadPagoField = value;
             }
         }
 
 
-        [XmlIgnore()]
+        [XmlIgnore]
         public bool TipoCadPagoSpecified
         {
             get
             {
-                return this.tipoCadPagoFieldSpecified;
+                return tipoCadPagoFieldSpecified;
             }
             set
             {
-                this.tipoCadPagoFieldSpecified = value;
+                tipoCadPagoFieldSpecified = value;
             }
         }
 
@@ -278,25 +278,25 @@ namespace XmlDownloader.Core.Models.SatModels.Complements.Payments.Pago20
         {
             get
             {
-                return this.certPagoField;
+                return certPagoField;
             }
             set
             {
-                this.certPagoField = value;
+                certPagoField = value;
             }
         }
 
 
-        [XmlAttribute()]
+        [XmlAttribute]
         public string CadPago
         {
             get
             {
-                return this.cadPagoField;
+                return cadPagoField;
             }
             set
             {
-                this.cadPagoField = value;
+                cadPagoField = value;
             }
         }
 
@@ -306,11 +306,11 @@ namespace XmlDownloader.Core.Models.SatModels.Complements.Payments.Pago20
         {
             get
             {
-                return this.selloPagoField;
+                return selloPagoField;
             }
             set
             {
-                this.selloPagoField = value;
+                selloPagoField = value;
             }
         }
     }

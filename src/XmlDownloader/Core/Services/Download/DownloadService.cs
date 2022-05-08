@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using XmlDownloader.Core.Builder;
-using XmlDownloader.Core.Common;
+﻿using XmlDownloader.Core.Builder;
 using XmlDownloader.Core.Helpers;
 using XmlDownloader.Core.Services.Authenticate;
 using XmlDownloader.Core.SoapClient;

@@ -16,7 +16,7 @@ using System.Xml.Serialization;
 namespace XmlDownloader.Core.Models.SatModels.Invoicing.Cfdi40
 {
     [Serializable]
-    [XmlType(AnonymousType = true, Namespace = "http://www.sat.gob.mx/cfd/4")]
+    // [XmlType(AnonymousType = true, Namespace = "http://www.sat.gob.mx/cfd/4")]
     public class ComprobanteComplemento
     {
         private XmlElement[] anyField;

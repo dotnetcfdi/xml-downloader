@@ -1,5 +1,4 @@
 ﻿using XmlDownloader.Core.Common;
-using XmlDownloader.Core.Helpers;
 
 namespace XmlDownloader.Core.Services.Query
 {

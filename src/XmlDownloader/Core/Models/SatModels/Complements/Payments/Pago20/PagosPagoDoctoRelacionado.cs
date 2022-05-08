@@ -3,10 +3,10 @@ using System.Xml.Serialization;
 
 namespace XmlDownloader.Core.Models.SatModels.Complements.Payments.Pago20
 {
-    [Serializable()]
+    [Serializable]
 
 
-    [XmlType(AnonymousType = true, Namespace = "http://www.sat.gob.mx/Pagos20")]
+    // [XmlType(AnonymousType = true, Namespace = "http://www.sat.gob.mx/Pagos20")]
     public class PagosPagoDoctoRelacionado
     {
 
@@ -39,96 +39,96 @@ namespace XmlDownloader.Core.Models.SatModels.Complements.Payments.Pago20
         {
             get
             {
-                return this.impuestosDRField;
+                return impuestosDRField;
             }
             set
             {
-                this.impuestosDRField = value;
+                impuestosDRField = value;
             }
         }
 
 
-        [XmlAttribute()]
+        [XmlAttribute]
         public string IdDocumento
         {
             get
             {
-                return this.idDocumentoField;
+                return idDocumentoField;
             }
             set
             {
-                this.idDocumentoField = value;
+                idDocumentoField = value;
             }
         }
 
 
-        [XmlAttribute()]
+        [XmlAttribute]
         public string Serie
         {
             get
             {
-                return this.serieField;
+                return serieField;
             }
             set
             {
-                this.serieField = value;
+                serieField = value;
             }
         }
 
 
-        [XmlAttribute()]
+        [XmlAttribute]
         public string Folio
         {
             get
             {
-                return this.folioField;
+                return folioField;
             }
             set
             {
-                this.folioField = value;
+                folioField = value;
             }
         }
 
 
-        [XmlAttribute()]
+        [XmlAttribute]
         public string MonedaDR
         {
             get
             {
-                return this.monedaDRField;
+                return monedaDRField;
             }
             set
             {
-                this.monedaDRField = value;
+                monedaDRField = value;
             }
         }
 
 
-        [XmlAttribute()]
+        [XmlAttribute]
         public decimal EquivalenciaDR
         {
             get
             {
-                return this.equivalenciaDRField;
+                return equivalenciaDRField;
             }
             set
             {
-                this.equivalenciaDRField = value;
-                this.equivalenciaDRFieldSpecified = true;
+                equivalenciaDRField = value;
+                equivalenciaDRFieldSpecified = true;
             }
         }
 
 
-        [XmlIgnore()]
+        [XmlIgnore]
         public bool EquivalenciaDRSpecified
         {
             get
             {
-                return this.equivalenciaDRFieldSpecified;
+                return equivalenciaDRFieldSpecified;
             }
             set
             {
-                this.equivalenciaDRFieldSpecified = value;
+                equivalenciaDRFieldSpecified = value;
             }
         }
 
@@ -138,67 +138,67 @@ namespace XmlDownloader.Core.Models.SatModels.Complements.Payments.Pago20
         {
             get
             {
-                return this.numParcialidadField;
+                return numParcialidadField;
             }
             set
             {
-                this.numParcialidadField = value;
+                numParcialidadField = value;
             }
         }
 
 
-        [XmlAttribute()]
+        [XmlAttribute]
         public decimal ImpSaldoAnt
         {
             get
             {
-                return this.impSaldoAntField;
+                return impSaldoAntField;
             }
             set
             {
-                this.impSaldoAntField = value;
+                impSaldoAntField = value;
             }
         }
 
 
-        [XmlAttribute()]
+        [XmlAttribute]
         public decimal ImpPagado
         {
             get
             {
-                return this.impPagadoField;
+                return impPagadoField;
             }
             set
             {
-                this.impPagadoField = value;
+                impPagadoField = value;
             }
         }
 
 
-        [XmlAttribute()]
+        [XmlAttribute]
         public decimal ImpSaldoInsoluto
         {
             get
             {
-                return this.impSaldoInsolutoField;
+                return impSaldoInsolutoField;
             }
             set
             {
-                this.impSaldoInsolutoField = value;
+                impSaldoInsolutoField = value;
             }
         }
 
 
-        [XmlAttribute()]
+        [XmlAttribute]
         public string ObjetoImpDR
         {
             get
             {
-                return this.objetoImpDRField;
+                return objetoImpDRField;
             }
             set
             {
-                this.objetoImpDRField = value;
+                objetoImpDRField = value;
             }
         }
     }

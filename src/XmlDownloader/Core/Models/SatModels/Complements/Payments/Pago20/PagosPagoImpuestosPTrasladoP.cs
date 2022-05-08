@@ -2,10 +2,10 @@
 
 namespace XmlDownloader.Core.Models.SatModels.Complements.Payments.Pago20
 {
-    [Serializable()]
+    [Serializable]
 
 
-    [XmlType(AnonymousType = true, Namespace = "http://www.sat.gob.mx/Pagos20")]
+    // [XmlType(AnonymousType = true, Namespace = "http://www.sat.gob.mx/Pagos20")]
     public class PagosPagoImpuestosPTrasladoP
     {
 
@@ -24,102 +24,102 @@ namespace XmlDownloader.Core.Models.SatModels.Complements.Payments.Pago20
         private bool importePFieldSpecified;
 
 
-        [XmlAttribute()]
+        [XmlAttribute]
         public decimal BaseP
         {
             get
             {
-                return this.basePField;
+                return basePField;
             }
             set
             {
-                this.basePField = value;
+                basePField = value;
             }
         }
 
 
-        [XmlAttribute()]
+        [XmlAttribute]
         public string ImpuestoP
         {
             get
             {
-                return this.impuestoPField;
+                return impuestoPField;
             }
             set
             {
-                this.impuestoPField = value;
+                impuestoPField = value;
             }
         }
 
 
-        [XmlAttribute()]
+        [XmlAttribute]
         public string TipoFactorP
         {
             get
             {
-                return this.tipoFactorPField;
+                return tipoFactorPField;
             }
             set
             {
-                this.tipoFactorPField = value;
+                tipoFactorPField = value;
             }
         }
 
 
-        [XmlAttribute()]
+        [XmlAttribute]
         public decimal TasaOCuotaP
         {
             get
             {
-                return this.tasaOCuotaPField;
+                return tasaOCuotaPField;
             }
             set
             {
-                this.tasaOCuotaPField = value;
-                this.tasaOCuotaPFieldSpecified = value >= 0;
+                tasaOCuotaPField = value;
+                tasaOCuotaPFieldSpecified = value >= 0;
             }
         }
 
 
-        [XmlIgnore()]
+        [XmlIgnore]
         public bool TasaOCuotaPSpecified
         {
             get
             {
-                return this.tasaOCuotaPFieldSpecified;
+                return tasaOCuotaPFieldSpecified;
             }
             set
             {
-                this.tasaOCuotaPFieldSpecified = value;
+                tasaOCuotaPFieldSpecified = value;
             }
         }
 
 
-        [XmlAttribute()]
+        [XmlAttribute]
         public decimal ImporteP
         {
             get
             {
-                return this.importePField;
+                return importePField;
             }
             set
             {
-                this.importePField = value;
-                this.importePFieldSpecified = value >= 0;
+                importePField = value;
+                importePFieldSpecified = value >= 0;
             }
         }
 
 
-        [XmlIgnore()]
+        [XmlIgnore]
         public bool ImportePSpecified
         {
             get
             {
-                return this.importePFieldSpecified;
+                return importePFieldSpecified;
             }
             set
             {
-                this.importePFieldSpecified = value;
+                importePFieldSpecified = value;
             }
         }
     }

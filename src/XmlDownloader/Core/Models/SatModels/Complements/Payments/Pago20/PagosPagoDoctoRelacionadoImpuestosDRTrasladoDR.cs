@@ -2,8 +2,8 @@
 
 namespace XmlDownloader.Core.Models.SatModels.Complements.Payments.Pago20
 {
-    [Serializable()]
-    [XmlType(AnonymousType = true, Namespace = "http://www.sat.gob.mx/Pagos20")]
+    [Serializable]
+    // [XmlType(AnonymousType = true, Namespace = "http://www.sat.gob.mx/Pagos20")]
     public class PagosPagoDoctoRelacionadoImpuestosDRTrasladoDR
     {
 
@@ -22,103 +22,103 @@ namespace XmlDownloader.Core.Models.SatModels.Complements.Payments.Pago20
         private bool importeDRFieldSpecified;
 
 
-        [XmlAttribute()]
+        [XmlAttribute]
         public decimal BaseDR
         {
             get
             {
-                return this.baseDRField;
+                return baseDRField;
             }
             set
             {
-                this.baseDRField = value;
+                baseDRField = value;
             }
         }
 
 
-        [XmlAttribute()]
+        [XmlAttribute]
         public string ImpuestoDR
         {
             get
             {
-                return this.impuestoDRField;
+                return impuestoDRField;
             }
             set
             {
-                this.impuestoDRField = value;
+                impuestoDRField = value;
             }
         }
 
 
-        [XmlAttribute()]
+        [XmlAttribute]
         public string TipoFactorDR
         {
             get
             {
-                return this.tipoFactorDRField;
+                return tipoFactorDRField;
             }
             set
             {
-                this.tipoFactorDRField = value;
-                this.tasaOCuotaDRFieldSpecified = true;
+                tipoFactorDRField = value;
+                tasaOCuotaDRFieldSpecified = true;
             }
         }
 
 
-        [XmlAttribute()]
+        [XmlAttribute]
         public decimal TasaOCuotaDR
         {
             get
             {
-                return this.tasaOCuotaDRField;
+                return tasaOCuotaDRField;
             }
             set
             {
-                this.tasaOCuotaDRField = value;
-                this.tasaOCuotaDRFieldSpecified = value >= 0;
+                tasaOCuotaDRField = value;
+                tasaOCuotaDRFieldSpecified = value >= 0;
             }
         }
 
 
-        [XmlIgnore()]
+        [XmlIgnore]
         public bool TasaOCuotaDRSpecified
         {
             get
             {
-                return this.tasaOCuotaDRFieldSpecified;
+                return tasaOCuotaDRFieldSpecified;
             }
             set
             {
-                this.tasaOCuotaDRFieldSpecified = value;
+                tasaOCuotaDRFieldSpecified = value;
             }
         }
 
 
-        [XmlAttribute()]
+        [XmlAttribute]
         public decimal ImporteDR
         {
             get
             {
-                return this.importeDRField;
+                return importeDRField;
             }
             set
             {
-                this.importeDRField = value;
-                this.importeDRFieldSpecified = value >= 0;
+                importeDRField = value;
+                importeDRFieldSpecified = value >= 0;
             }
         }
 
 
-        [XmlIgnore()]
+        [XmlIgnore]
         public bool ImporteDRSpecified
         {
             get
             {
-                return this.importeDRFieldSpecified;
+                return importeDRFieldSpecified;
             }
             set
             {
-                this.importeDRFieldSpecified = value;
+                importeDRFieldSpecified = value;
             }
         }
     }

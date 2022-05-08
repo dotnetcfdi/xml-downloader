@@ -2,10 +2,7 @@
 
 namespace XmlDownloader.Core.Models.SatModels.Complements.Payments.Pago20
 {
-    [Serializable()]
-
-
-    [XmlType(AnonymousType=true, Namespace="http://www.sat.gob.mx/Pagos20")]
+    [Serializable, XmlType(AnonymousType = true, Namespace = "http://www.sat.gob.mx/Pagos20")]
     public  class PagosPagoImpuestosPRetencionP {
     
         private string impuestoPField;
@@ -13,24 +10,24 @@ namespace XmlDownloader.Core.Models.SatModels.Complements.Payments.Pago20
         private decimal importePField;
     
     
-        [XmlAttribute()]
+        [XmlAttribute]
         public string ImpuestoP {
             get {
-                return this.impuestoPField;
+                return impuestoPField;
             }
             set {
-                this.impuestoPField = value;
+                impuestoPField = value;
             }
         }
     
     
-        [XmlAttribute()]
+        [XmlAttribute]
         public decimal ImporteP {
             get {
-                return this.importePField;
+                return importePField;
             }
             set {
-                this.importePField = value;
+                importePField = value;
             }
         }
     }

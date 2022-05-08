@@ -1,6 +1,4 @@
-﻿using System.Reflection;
-
-namespace XmlDownloader.Core.Helpers
+﻿namespace XmlDownloader.Core.Helpers
 {
     public static class Settings
     {
@@ -13,6 +11,17 @@ namespace XmlDownloader.Core.Helpers
         public static string WorkDirectory { get; set; } = Path.Combine(Environment.CurrentDirectory, "WorkDirectory");
 
         public static string LogsDirectory { get; set; } = Path.Combine(Environment.CurrentDirectory, "XmlLogs");
+
+
+        public static string RootNameSpace33 = @"http://www.sat.gob.mx/cfd/3";
+        public static string RootNameSpace40 { get; set; } = @"http://www.sat.gob.mx/cfd/4";
+
+
+        public static string RootNameSpacePago33 = @"http://www.sat.gob.mx/Pagos";
+        public static string RootNameSpacePago40 { get; set; } = @"http://www.sat.gob.mx/Pagos20";
+
+
+
 
         #endregion
     }

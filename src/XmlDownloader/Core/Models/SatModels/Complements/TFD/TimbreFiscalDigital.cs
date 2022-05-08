@@ -16,17 +16,16 @@ using System.Xml.Serialization;
 
 namespace XmlDownloader.Core.Models.SatModels.Complements.TFD
 {
-    [System.Serializable()]
-    [XmlType(AnonymousType = true, Namespace = "http://www.sat.gob.mx/TimbreFiscalDigital")]
-    [XmlRoot(Namespace = "http://www.sat.gob.mx/TimbreFiscalDigital", IsNullable = false)]
-    public partial class TimbreFiscalDigital
+    [Serializable, XmlType(AnonymousType = true, Namespace = "http://www.sat.gob.mx/TimbreFiscalDigital"),
+     XmlRoot(Namespace = "http://www.sat.gob.mx/TimbreFiscalDigital", IsNullable = false)]
+    public class TimbreFiscalDigital
     {
 
         private string versionField;
 
         private string uUIDField;
 
-        private System.DateTime fechaTimbradoField;
+        private DateTime fechaTimbradoField;
 
         private string rfcProvCertifField;
 
@@ -40,118 +39,118 @@ namespace XmlDownloader.Core.Models.SatModels.Complements.TFD
 
         public TimbreFiscalDigital()
         {
-            this.versionField = "1.1";
+            versionField = "1.1";
         }
 
         /// <remarks/>
-        [XmlAttribute()]
+        [XmlAttribute]
         public string Version
         {
             get
             {
-                return this.versionField;
+                return versionField;
             }
             set
             {
-                this.versionField = value;
+                versionField = value;
             }
         }
 
         /// <remarks/>
-        [XmlAttribute()]
+        [XmlAttribute]
         public string UUID
         {
             get
             {
-                return this.uUIDField;
+                return uUIDField;
             }
             set
             {
-                this.uUIDField = value;
+                uUIDField = value;
             }
         }
 
         /// <remarks/>
-        [XmlAttribute()]
-        public System.DateTime FechaTimbrado
+        [XmlAttribute]
+        public DateTime FechaTimbrado
         {
             get
             {
-                return this.fechaTimbradoField;
+                return fechaTimbradoField;
             }
             set
             {
-                this.fechaTimbradoField = value;
+                fechaTimbradoField = value;
             }
         }
 
         /// <remarks/>
-        [XmlAttribute()]
+        [XmlAttribute]
         public string RfcProvCertif
         {
             get
             {
-                return this.rfcProvCertifField;
+                return rfcProvCertifField;
             }
             set
             {
-                this.rfcProvCertifField = value;
+                rfcProvCertifField = value;
             }
         }
 
         /// <remarks/>
-        [XmlAttribute()]
+        [XmlAttribute]
         public string Leyenda
         {
             get
             {
-                return this.leyendaField;
+                return leyendaField;
             }
             set
             {
-                this.leyendaField = value;
+                leyendaField = value;
             }
         }
 
         /// <remarks/>
-        [XmlAttribute()]
+        [XmlAttribute]
         public string SelloCFD
         {
             get
             {
-                return this.selloCFDField;
+                return selloCFDField;
             }
             set
             {
-                this.selloCFDField = value;
+                selloCFDField = value;
             }
         }
 
         /// <remarks/>
-        [XmlAttribute()]
+        [XmlAttribute]
         public string NoCertificadoSAT
         {
             get
             {
-                return this.noCertificadoSATField;
+                return noCertificadoSATField;
             }
             set
             {
-                this.noCertificadoSATField = value;
+                noCertificadoSATField = value;
             }
         }
 
         /// <remarks/>
-        [XmlAttribute()]
+        [XmlAttribute]
         public string SelloSAT
         {
             get
             {
-                return this.selloSATField;
+                return selloSATField;
             }
             set
             {
-                this.selloSATField = value;
+                selloSATField = value;
             }
         }
     }

@@ -3,9 +3,8 @@ using System.Xml.Serialization;
 
 namespace XmlDownloader.Core.Models.SatModels.Complements.Payments.Pago20
 {
-    [Serializable()]
-    [XmlType(AnonymousType = true, Namespace = "http://www.sat.gob.mx/Pagos20")]
-    [XmlRoot(Namespace = "http://www.sat.gob.mx/Pagos20", IsNullable = false)]
+    [Serializable, XmlRoot(Namespace = "http://www.sat.gob.mx/Pagos20", IsNullable = false)]
+    // [XmlType(AnonymousType = true, Namespace = "http://www.sat.gob.mx/Pagos20")]
     public  class Pagos {
     
         private PagosTotales totalesField;
@@ -15,16 +14,16 @@ namespace XmlDownloader.Core.Models.SatModels.Complements.Payments.Pago20
         private string versionField;
     
         public Pagos() {
-            this.versionField = "2.0";
+            versionField = "2.0";
         }
     
     
         public PagosTotales Totales {
             get {
-                return this.totalesField;
+                return totalesField;
             }
             set {
-                this.totalesField = value;
+                totalesField = value;
             }
         }
     
@@ -32,21 +31,21 @@ namespace XmlDownloader.Core.Models.SatModels.Complements.Payments.Pago20
         [XmlElement("Pago")]
         public PagosPago[] Pago {
             get {
-                return this.pagoField;
+                return pagoField;
             }
             set {
-                this.pagoField = value;
+                pagoField = value;
             }
         }
     
     
-        [XmlAttribute()]
+        [XmlAttribute]
         public string Version {
             get {
-                return this.versionField;
+                return versionField;
             }
             set {
-                this.versionField = value;
+                versionField = value;
             }
         }
     }

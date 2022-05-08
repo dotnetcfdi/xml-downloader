@@ -12,16 +12,20 @@
 
 using System.Xml.Schema;
 using System.Xml.Serialization;
+using XmlDownloader.Core.Models.SatModels.Complements.Payments.Pago20;
 using XmlDownloader.Core.Models.SatModels.Complements.TFD;
 
 namespace XmlDownloader.Core.Models.SatModels.Invoicing.Cfdi40
 {
-    [Serializable]
-    [XmlType(AnonymousType = true, Namespace = "http://www.sat.gob.mx/cfd/4")]
-    [XmlRoot(Namespace = "http://www.sat.gob.mx/cfd/4", IsNullable = false)]
+    [Serializable, XmlType(AnonymousType = true), XmlRoot(IsNullable = false)]
+
+    //[XmlType(AnonymousType = true, Namespace = "http://www.sat.gob.mx/cfd/3")]
+    //[XmlRoot(Namespace = "http://www.sat.gob.mx/cfd/3", IsNullable = false)]
     public class Comprobante
     {
-        public TimbreFiscalDigital TimbreFiscalDigital;
+        public TimbreFiscalDigital? TimbreFiscalDigital;
+        public Pagos? Pago20;
+        public Complements.Payments.Pago10.Pagos? Pago10;
 
         private ComprobanteInformacionGlobal informacionGlobalField;
 
@@ -86,14 +90,12 @@ namespace XmlDownloader.Core.Models.SatModels.Invoicing.Cfdi40
         private string confirmacionField;
 
 
-
         //[XmlAttribute("schemaLocation", Namespace = XmlSchema.InstanceNamespace)]
         //public string XsiSchemaLocation =
         //    "http://www.sat.gob.mx/cfd/4 " +
         //    "http://www.sat.gob.mx/sitio_internet/cfd/4/cfdv40.xsd " +
         //    "http://www.sat.gob.mx/Pagos20 " +
         //    "http://www.sat.gob.mx/sitio_internet/cfd/Pagos/Pagos20.xsd";
-
 
 
         [XmlAttribute("schemaLocation", Namespace = XmlSchema.InstanceNamespace)]
@@ -223,8 +225,7 @@ namespace XmlDownloader.Core.Models.SatModels.Invoicing.Cfdi40
             set { formaPagoFieldSpecified = value; }
         }
 
-        [XmlIgnore]
-        public decimal SubTotalEsperado  { get; set; }
+        [XmlIgnore] public decimal SubTotalEsperado { get; set; }
 
         [XmlAttribute]
         public string NoCertificado

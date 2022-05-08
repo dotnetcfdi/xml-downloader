@@ -1,5 +1,4 @@
-﻿using System.Reflection;
-using Credencials.Core;
+﻿using Credencials.Core;
 using XmlDownloader.Core.Builder;
 using XmlDownloader.Core.Helpers;
 using XmlDownloader.Core.Services.Authenticate;
@@ -21,7 +20,7 @@ public class XmlDownloaderService
     public XmlDownloaderService(ICredential credential, AuthenticateResult? token = null)
     {
         this.credential = credential;
-        this.soapEnvelopeBuilder = new SoapEnvelopeBuilder(credential);
+        soapEnvelopeBuilder = new SoapEnvelopeBuilder(credential);
 
         if (token is not null)
             Token = token;

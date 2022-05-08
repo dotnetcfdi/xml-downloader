@@ -2,8 +2,7 @@
 
 namespace XmlDownloader.Core.Models.SatModels.Complements.Payments.Pago20
 {
-    [Serializable()]
-    [XmlType(AnonymousType=true, Namespace="http://www.sat.gob.mx/Pagos20")]
+    [Serializable, XmlType(AnonymousType = true, Namespace = "http://www.sat.gob.mx/Pagos20")]
     public  class PagosPagoDoctoRelacionadoImpuestosDRRetencionDR {
     
         private decimal baseDRField;
@@ -17,57 +16,57 @@ namespace XmlDownloader.Core.Models.SatModels.Complements.Payments.Pago20
         private decimal importeDRField;
     
     
-        [XmlAttribute()]
+        [XmlAttribute]
         public decimal BaseDR {
             get {
-                return this.baseDRField;
+                return baseDRField;
             }
             set {
-                this.baseDRField = value;
+                baseDRField = value;
             }
         }
     
     
-        [XmlAttribute()]
+        [XmlAttribute]
         public string ImpuestoDR {
             get {
-                return this.impuestoDRField;
+                return impuestoDRField;
             }
             set {
-                this.impuestoDRField = value;
+                impuestoDRField = value;
             }
         }
     
     
-        [XmlAttribute()]
+        [XmlAttribute]
         public string TipoFactorDR {
             get {
-                return this.tipoFactorDRField;
+                return tipoFactorDRField;
             }
             set {
-                this.tipoFactorDRField = value;
+                tipoFactorDRField = value;
             }
         }
     
     
-        [XmlAttribute()]
+        [XmlAttribute]
         public decimal TasaOCuotaDR {
             get {
-                return this.tasaOCuotaDRField;
+                return tasaOCuotaDRField;
             }
             set {
-                this.tasaOCuotaDRField = value;
+                tasaOCuotaDRField = value;
             }
         }
     
     
-        [XmlAttribute()]
+        [XmlAttribute]
         public decimal ImporteDR {
             get {
-                return this.importeDRField;
+                return importeDRField;
             }
             set {
-                this.importeDRField = value;
+                importeDRField = value;
             }
         }
     }

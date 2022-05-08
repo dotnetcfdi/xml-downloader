@@ -1,7 +1,5 @@
-﻿using System.Security.AccessControl;
-using System.Text;
+﻿using System.Text;
 using XmlDownloader.Core.Common;
-using XmlDownloader.Core.Models;
 using XmlDownloader.Core.Services.Authenticate;
 
 namespace XmlDownloader.Core.SoapClient

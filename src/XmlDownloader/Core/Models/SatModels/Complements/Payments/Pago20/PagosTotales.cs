@@ -2,10 +2,10 @@
 
 namespace XmlDownloader.Core.Models.SatModels.Complements.Payments.Pago20
 {
-    [Serializable()]
+    [Serializable]
 
 
-    [XmlType(AnonymousType = true, Namespace = "http://www.sat.gob.mx/Pagos20")]
+    // [XmlType(AnonymousType = true, Namespace = "http://www.sat.gob.mx/Pagos20")]
     public  class PagosTotales
     {
 
@@ -52,299 +52,299 @@ namespace XmlDownloader.Core.Models.SatModels.Complements.Payments.Pago20
         private decimal montoTotalPagosField;
 
 
-        [XmlAttribute()]
+        [XmlAttribute]
         public decimal TotalRetencionesIVA
         {
             get
             {
-                return this.totalRetencionesIVAField;
+                return totalRetencionesIVAField;
             }
             set
             {
-                this.totalRetencionesIVAField = value;
+                totalRetencionesIVAField = value;
             }
         }
 
 
-        [XmlIgnore()]
+        [XmlIgnore]
         public bool TotalRetencionesIVASpecified
         {
             get
             {
-                return this.totalRetencionesIVAFieldSpecified;
+                return totalRetencionesIVAFieldSpecified;
             }
             set
             {
-                this.totalRetencionesIVAFieldSpecified = value;
+                totalRetencionesIVAFieldSpecified = value;
             }
         }
 
 
-        [XmlAttribute()]
+        [XmlAttribute]
         public decimal TotalRetencionesISR
         {
             get
             {
-                return this.totalRetencionesISRField;
+                return totalRetencionesISRField;
             }
             set
             {
-                this.totalRetencionesISRField = value;
+                totalRetencionesISRField = value;
             }
         }
 
 
-        [XmlIgnore()]
+        [XmlIgnore]
         public bool TotalRetencionesISRSpecified
         {
             get
             {
-                return this.totalRetencionesISRFieldSpecified;
+                return totalRetencionesISRFieldSpecified;
             }
             set
             {
-                this.totalRetencionesISRFieldSpecified = value;
+                totalRetencionesISRFieldSpecified = value;
             }
         }
 
 
-        [XmlAttribute()]
+        [XmlAttribute]
         public decimal TotalRetencionesIEPS
         {
             get
             {
-                return this.totalRetencionesIEPSField;
+                return totalRetencionesIEPSField;
             }
             set
             {
-                this.totalRetencionesIEPSField = value;
+                totalRetencionesIEPSField = value;
             }
         }
 
 
-        [XmlIgnore()]
+        [XmlIgnore]
         public bool TotalRetencionesIEPSSpecified
         {
             get
             {
-                return this.totalRetencionesIEPSFieldSpecified;
+                return totalRetencionesIEPSFieldSpecified;
             }
             set
             {
-                this.totalRetencionesIEPSFieldSpecified = value;
+                totalRetencionesIEPSFieldSpecified = value;
             }
         }
 
 
-        [XmlAttribute()]
+        [XmlAttribute]
         public decimal TotalTrasladosBaseIVA16
         {
             get
             {
-                return this.totalTrasladosBaseIVA16Field;
+                return totalTrasladosBaseIVA16Field;
             }
             set
             {
-                this.totalTrasladosBaseIVA16Field = value;
-                this.totalTrasladosBaseIVA16FieldSpecified = value > 0;
+                totalTrasladosBaseIVA16Field = value;
+                totalTrasladosBaseIVA16FieldSpecified = value > 0;
             }
         }
 
 
-        [XmlIgnore()]
+        [XmlIgnore]
         public bool TotalTrasladosBaseIVA16Specified
         {
             get
             {
-                return this.totalTrasladosBaseIVA16FieldSpecified;
+                return totalTrasladosBaseIVA16FieldSpecified;
             }
             set
             {
-                this.totalTrasladosBaseIVA16FieldSpecified = value;
+                totalTrasladosBaseIVA16FieldSpecified = value;
             }
         }
 
 
-        [XmlAttribute()]
+        [XmlAttribute]
         public decimal TotalTrasladosImpuestoIVA16
         {
             get
             {
-                return this.totalTrasladosImpuestoIVA16Field;
+                return totalTrasladosImpuestoIVA16Field;
             }
             set
             {
-                this.totalTrasladosImpuestoIVA16Field = value;
-                this.totalTrasladosImpuestoIVA16FieldSpecified = value > 0;
+                totalTrasladosImpuestoIVA16Field = value;
+                totalTrasladosImpuestoIVA16FieldSpecified = value > 0;
             }
         }
 
 
-        [XmlIgnore()]
+        [XmlIgnore]
         public bool TotalTrasladosImpuestoIVA16Specified
         {
             get
             {
-                return this.totalTrasladosImpuestoIVA16FieldSpecified;
+                return totalTrasladosImpuestoIVA16FieldSpecified;
             }
             set
             {
-                this.totalTrasladosImpuestoIVA16FieldSpecified = value;
+                totalTrasladosImpuestoIVA16FieldSpecified = value;
             }
         }
 
 
-        [XmlAttribute()]
+        [XmlAttribute]
         public decimal TotalTrasladosBaseIVA8
         {
             get
             {
-                return this.totalTrasladosBaseIVA8Field;
+                return totalTrasladosBaseIVA8Field;
             }
             set
             {
-                this.totalTrasladosBaseIVA8Field = value;
+                totalTrasladosBaseIVA8Field = value;
             }
         }
 
 
-        [XmlIgnore()]
+        [XmlIgnore]
         public bool TotalTrasladosBaseIVA8Specified
         {
             get
             {
-                return this.totalTrasladosBaseIVA8FieldSpecified;
+                return totalTrasladosBaseIVA8FieldSpecified;
             }
             set
             {
-                this.totalTrasladosBaseIVA8FieldSpecified = value;
+                totalTrasladosBaseIVA8FieldSpecified = value;
             }
         }
 
 
-        [XmlAttribute()]
+        [XmlAttribute]
         public decimal TotalTrasladosImpuestoIVA8
         {
             get
             {
-                return this.totalTrasladosImpuestoIVA8Field;
+                return totalTrasladosImpuestoIVA8Field;
             }
             set
             {
-                this.totalTrasladosImpuestoIVA8Field = value;
+                totalTrasladosImpuestoIVA8Field = value;
             }
         }
 
 
-        [XmlIgnore()]
+        [XmlIgnore]
         public bool TotalTrasladosImpuestoIVA8Specified
         {
             get
             {
-                return this.totalTrasladosImpuestoIVA8FieldSpecified;
+                return totalTrasladosImpuestoIVA8FieldSpecified;
             }
             set
             {
-                this.totalTrasladosImpuestoIVA8FieldSpecified = value;
+                totalTrasladosImpuestoIVA8FieldSpecified = value;
             }
         }
 
 
-        [XmlAttribute()]
+        [XmlAttribute]
         public decimal TotalTrasladosBaseIVA0
         {
             get
             {
-                return this.totalTrasladosBaseIVA0Field;
+                return totalTrasladosBaseIVA0Field;
             }
             set
             {
-                this.totalTrasladosBaseIVA0Field = value;
+                totalTrasladosBaseIVA0Field = value;
             }
         }
 
 
-        [XmlIgnore()]
+        [XmlIgnore]
         public bool TotalTrasladosBaseIVA0Specified
         {
             get
             {
-                return this.totalTrasladosBaseIVA0FieldSpecified;
+                return totalTrasladosBaseIVA0FieldSpecified;
             }
             set
             {
-                this.totalTrasladosBaseIVA0FieldSpecified = value;
+                totalTrasladosBaseIVA0FieldSpecified = value;
             }
         }
 
 
-        [XmlAttribute()]
+        [XmlAttribute]
         public decimal TotalTrasladosImpuestoIVA0
         {
             get
             {
-                return this.totalTrasladosImpuestoIVA0Field;
+                return totalTrasladosImpuestoIVA0Field;
             }
             set
             {
-                this.totalTrasladosImpuestoIVA0Field = value;
+                totalTrasladosImpuestoIVA0Field = value;
             }
         }
 
 
-        [XmlIgnore()]
+        [XmlIgnore]
         public bool TotalTrasladosImpuestoIVA0Specified
         {
             get
             {
-                return this.totalTrasladosImpuestoIVA0FieldSpecified;
+                return totalTrasladosImpuestoIVA0FieldSpecified;
             }
             set
             {
-                this.totalTrasladosImpuestoIVA0FieldSpecified = value;
+                totalTrasladosImpuestoIVA0FieldSpecified = value;
             }
         }
 
 
-        [XmlAttribute()]
+        [XmlAttribute]
         public decimal TotalTrasladosBaseIVAExento
         {
             get
             {
-                return this.totalTrasladosBaseIVAExentoField;
+                return totalTrasladosBaseIVAExentoField;
             }
             set
             {
-                this.totalTrasladosBaseIVAExentoField = value;
-                this.totalTrasladosBaseIVAExentoFieldSpecified = value > 0;
+                totalTrasladosBaseIVAExentoField = value;
+                totalTrasladosBaseIVAExentoFieldSpecified = value > 0;
             }
         }
 
 
-        [XmlIgnore()]
+        [XmlIgnore]
         public bool TotalTrasladosBaseIVAExentoSpecified
         {
             get
             {
-                return this.totalTrasladosBaseIVAExentoFieldSpecified;
+                return totalTrasladosBaseIVAExentoFieldSpecified;
             }
             set
             {
-                this.totalTrasladosBaseIVAExentoFieldSpecified = value;
+                totalTrasladosBaseIVAExentoFieldSpecified = value;
             }
         }
 
 
-        [XmlAttribute()]
+        [XmlAttribute]
         public decimal MontoTotalPagos
         {
             get
             {
-                return this.montoTotalPagosField;
+                return montoTotalPagosField;
             }
             set
             {
-                this.montoTotalPagosField = value;
+                montoTotalPagosField = value;
             }
         }
     }
