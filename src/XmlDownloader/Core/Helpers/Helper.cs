@@ -341,7 +341,7 @@ namespace XmlDownloader.Core.Helpers
         }
 
 
-        #region Log
+        #region Logging
 
         public static void SaveLog(string strContent)
         {
@@ -389,6 +389,8 @@ namespace XmlDownloader.Core.Helpers
 
         #region Serialization
 
+        #region Json
+
         public static string SerializeToJsonString<T>(T t)
         {
             var jsonString = JsonSerializer.Serialize(t, new JsonSerializerOptions {WriteIndented = true});
@@ -416,51 +418,76 @@ namespace XmlDownloader.Core.Helpers
             return JsonSerializer.Deserialize<T>(stringJson);
         }
 
+        #endregion
 
-        public static Comprobante? DeserializeXml(string xmlFullPath, string version)
+        #region Xml
+
+        public static Comprobante? Deserialize(string xmlPath)
         {
-            var serializer = new XmlSerializer(typeof(Comprobante),
-                new XmlRootAttribute
-                {
-                    IsNullable = false,
-                    Namespace = version.Equals("3.3") ? Settings.RootNameSpace33 : Settings.RootNameSpace40
-                });
+            var cfdiInfo = GetInvoiceVersion(xmlPath);
 
+            var xmlSerializer = GetSerializer(cfdiInfo);
 
-            var xmlSerializer = new XmlSerializer(typeof(Comprobante),
-                new XmlRootAttribute
-                {
-                    IsNullable = false,
-                    Namespace = version.Equals("3.3") ? Settings.RootNameSpace33 : Settings.RootNameSpace40
-                });
-
-            using var xmlReader = XmlReader.Create(xmlFullPath);
+            using var xmlReader = XmlReader.Create(xmlPath);
 
             var comprobante = xmlSerializer.Deserialize(xmlReader) as Comprobante;
 
+            if (comprobante?.Complemento[0]?.Any is null)
+                return comprobante;
 
-            if (comprobante?.Complemento[0]?.Any is null) return comprobante;
+            SerializeComplements(comprobante);
 
+            return comprobante;
+        }
+
+        private static void SerializeComplements(Comprobante comprobante)
+        {
             foreach (var complement in comprobante.Complemento[0].Any)
             {
-                if (complement.Name.Contains("TimbreFiscalDigital"))
+                if (complement.Prefix.Contains("tfd"))
                 {
                     comprobante.TimbreFiscalDigital =
                         DeserializeComplement<TimbreFiscalDigital>(complement.OuterXml);
                 }
-                else if (complement.Name.Contains("pago20"))
+                else if (complement.Prefix.Contains("pago20"))
                 {
                     comprobante.Pago20 =
                         DeserializeComplement<Pagos>(complement.OuterXml);
                 }
-                else if (complement.Name.Contains("pago10"))
+                else if (complement.Prefix.Contains("pago10"))
                 {
                     comprobante.Pago10 =
                         DeserializeComplement<Models.SatModels.Complements.Payments.Pago10.Pagos>(complement.OuterXml);
                 }
             }
+        }
 
-            return comprobante;
+        private static XmlSerializer GetSerializer(CfdiInfo cfdiInfo)
+        {
+            var xmlSerializer = new XmlSerializer(typeof(Comprobante),
+                new XmlRootAttribute
+                {
+                    IsNullable = false,
+                    Namespace = cfdiInfo.CfdiVersion.Equals("3.3") ? Settings.RootNameSpace33 : Settings.RootNameSpace40
+                });
+            return xmlSerializer;
+        }
+
+        private static CfdiInfo GetInvoiceVersion(string xmlFullPath)
+        {
+            var xml = new XmlDocument();
+            xml.Load(xmlFullPath);
+
+
+            var cfdiInfo = new CfdiInfo
+            {
+                CfdiVersion = xml.GetElementsByTagName("cfdi:Comprobante")[0]?.Attributes?["Version"]?.Value ?? "4.0",
+                CfdiType = xml.GetElementsByTagName("cfdi:Comprobante")[0]?.Attributes?["TipoDeComprobante"]?.Value ??
+                           "I"
+            };
+
+
+            return cfdiInfo;
         }
 
         private static T? DeserializeComplement<T>(string xml)
@@ -474,54 +501,7 @@ namespace XmlDownloader.Core.Helpers
             return complement;
         }
 
-        private static T Deserialize<T>(string xml)
-        {
-            var serializer = new XmlSerializer(typeof(T));
-
-            using var stringReader = new StringReader(xml);
-
-            using var xmlReader = XmlReader.Create(stringReader);
-
-            return (T) serializer.Deserialize(xmlReader);
-        }
-
-        public static Comprobante? DeserializeCfdi<T>(string xmlFullPath, string version)
-        {
-            var xmlSerializer = new XmlSerializer(typeof(Comprobante),
-                new XmlRootAttribute
-                {
-                    IsNullable = false,
-                    Namespace = version.Equals("3.3") ? Settings.RootNameSpace33 : Settings.RootNameSpace40
-                });
-
-            using var xmlReader = XmlReader.Create(xmlFullPath);
-
-            var comprobante =  xmlSerializer.Deserialize(xmlReader) as Comprobante;
-
-
-            if (comprobante?.Complemento[0]?.Any is null) return comprobante;
-
-            foreach (var complement in comprobante.Complemento[0].Any)
-            {
-                if (complement.Name.Contains("TimbreFiscalDigital"))
-                {
-                    comprobante.TimbreFiscalDigital =
-                        DeserializeComplement<TimbreFiscalDigital>(complement.OuterXml);
-                }
-                else if (complement.Name.Contains("pago20"))
-                {
-                    comprobante.Pago20 =
-                        DeserializeComplement<Pagos>(complement.OuterXml);
-                }
-                else if (complement.Name.Contains("pago10"))
-                {
-                    comprobante.Pago10 =
-                        DeserializeComplement<Models.SatModels.Complements.Payments.Pago10.Pagos>(complement.OuterXml);
-                }
-            }
-
-            return comprobante;
-        }
+        #endregion
 
         #endregion
     }
