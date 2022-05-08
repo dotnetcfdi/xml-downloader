@@ -2,6 +2,7 @@
 using System.Reflection;
 using XmlDownloader.Core.Helpers;
 using XmlDownloader.Core.Models;
+using XmlDownloader.Core.Models.SatModels.Invoicing.Cfdi40;
 using XmlDownloader.Core.Services.Download;
 
 namespace XmlDownloader.Core.Packaging
@@ -27,22 +28,51 @@ namespace XmlDownloader.Core.Packaging
 
 
             foreach (var fileModel in files)
-                metadata.AddRange(GetMetadataFromSingleFile(fileModel));
+                metadata.AddRange(await GetMetadataFromSingleFileAsync(fileModel));
 
 
             return metadata;
         }
 
-        private static IEnumerable<MetadataItem> GetMetadataFromSingleFile(FileModel fileModel)
+
+        public static async Task<List<Comprobante>> GetCfdisAsync(DownloadResult result)
+        {
+            EnsureDirectories();
+
+            var cfdis = new List<Comprobante>();
+
+            var successfulWriting = await WriteZipAsync(result);
+
+            if (!successfulWriting)
+                return cfdis;
+
+            var file = Path.Combine(Settings.WorkDirectory, $@"{result.PackageId}{Settings.PackageExtension}");
+
+            ZipFile.ExtractToDirectory(file, Settings.WorkDirectory);
+
+            var files = GetFileList(Settings.WorkDirectory, ".xml");
+
+
+            foreach (var fileModel in files)
+                cfdis.Add(GetCfdiFromSingleFile(fileModel));
+
+
+            return cfdis;
+        }
+
+
+        #region Helpers
+
+        private static async Task<IEnumerable<MetadataItem>> GetMetadataFromSingleFileAsync(FileModel fileModel)
         {
             var metadata = new List<MetadataItem>();
 
             if (fileModel.FullFileName is null)
                 return metadata;
 
-            var lines = File.ReadAllLines(fileModel.FullFileName).Skip(1).ToList();
+            var lines = await File.ReadAllLinesAsync(fileModel.FullFileName).ConfigureAwait(false);
 
-            foreach (var line in lines)
+            foreach (var line in lines.Skip(1).ToList())
             {
                 var fields = line.Split("~");
 
@@ -69,9 +99,15 @@ namespace XmlDownloader.Core.Packaging
         }
 
 
-        #region Helpers
+        private static Comprobante GetCfdiFromSingleFile(FileModel fileModel)
+        {
+            var comprobante = Helper.Deserialize(fileModel.FullFileName ?? "");
 
-        public static async Task<bool> WriteZipAsync(DownloadResult result)
+            return comprobante ?? new Comprobante();
+        }
+
+
+        private static async Task<bool> WriteZipAsync(DownloadResult result)
         {
             if (!result.IsSuccess) return false;
 
@@ -80,7 +116,7 @@ namespace XmlDownloader.Core.Packaging
                 string file;
 
 
-                if (Settings.EnableRedundantPacketWriter)
+                if (Settings.EnableRedundantWriting)
                 {
                     file = Path.Combine(Settings.PackagesDirectory, $@"{result.PackageId}{Settings.PackageExtension}");
 
@@ -103,7 +139,7 @@ namespace XmlDownloader.Core.Packaging
             }
         }
 
-        public static void ClearDirectory(string directoryPath)
+        private static void ClearDirectory(string directoryPath)
         {
             var directoryInfo = new DirectoryInfo(directoryPath);
 
@@ -129,7 +165,7 @@ namespace XmlDownloader.Core.Packaging
             if (!Directory.Exists(Settings.WorkDirectory))
                 Directory.CreateDirectory(Settings.WorkDirectory);
 
-            
+
             if (!Directory.Exists(Settings.LogsDirectory))
                 Directory.CreateDirectory(Settings.LogsDirectory);
 

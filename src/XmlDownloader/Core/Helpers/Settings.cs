@@ -4,7 +4,7 @@
     {
         #region Props
 
-        public static bool EnableRedundantPacketWriter { get; set; } = true;
+        public static bool EnableRedundantWriting { get; set; } = true;
         public static string PackageExtension { get; set; } = ".Zip";
 
         public static string PackagesDirectory { get; set; } =

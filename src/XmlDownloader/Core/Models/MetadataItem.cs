@@ -53,7 +53,7 @@
         public string? invoiceType { get; set; }
 
         /// <summary>
-        /// estatus
+        /// 1 vigente | 0 cancelado
         /// </summary>
         public string? Status { get; set; }
 
