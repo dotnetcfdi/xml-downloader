@@ -1,8 +1,21 @@
-﻿using System.Xml.Serialization;
+﻿//***************************************************************************************
+// <Author>                                                                             *
+//     Jesús Mendoza Jaurez.                                                            *
+//     mendoza.git@gmail.com                                                            *
+//     https://github.com/mendozagit                                                    *
+//                                                                                      *
+//     Los cambios en este archivo podrían causar un comportamiento incorrecto.         *
+//     Este código no ofrece ningún tipo de garantía, se generó para ayudar a la        *
+//     Comunidad open source, siéntanse libre de utilizarlo, sin ninguna garantía.      *
+//     Nota: Mantenga este comentario para respetar al autor.                           *
+// </Author>                                                                            *
+//***************************************************************************************
+
+using System.Xml.Serialization;
 
 namespace XmlDownloader.Core.Models.SatModels.Complements.Payments.Pago10;
 
-/// <remarks/>
+
 [Serializable,
  XmlType(AnonymousType = true, Namespace = "http://www.sat.gob.mx/Pagos")]
 public class PagosPagoDoctoRelacionado
@@ -36,7 +49,7 @@ public class PagosPagoDoctoRelacionado
 
     private bool impSaldoInsolutoFieldSpecified;
 
-    /// <remarks/>
+    
     [XmlAttribute]
     public string IdDocumento
     {
@@ -50,7 +63,7 @@ public class PagosPagoDoctoRelacionado
         }
     }
 
-    /// <remarks/>
+    
     [XmlAttribute]
     public string Serie
     {
@@ -64,7 +77,7 @@ public class PagosPagoDoctoRelacionado
         }
     }
 
-    /// <remarks/>
+    
     [XmlAttribute]
     public string Folio
     {
@@ -78,7 +91,7 @@ public class PagosPagoDoctoRelacionado
         }
     }
 
-    /// <remarks/>
+    
     [XmlAttribute]
     public string MonedaDR
     {
@@ -92,7 +105,7 @@ public class PagosPagoDoctoRelacionado
         }
     }
 
-    /// <remarks/>
+    
     [XmlAttribute]
     public decimal TipoCambioDR
     {
@@ -106,7 +119,7 @@ public class PagosPagoDoctoRelacionado
         }
     }
 
-    /// <remarks/>
+    
     [XmlIgnore]
     public bool TipoCambioDRSpecified
     {
@@ -120,7 +133,7 @@ public class PagosPagoDoctoRelacionado
         }
     }
 
-    /// <remarks/>
+    
     [XmlAttribute]
     public string MetodoDePagoDR
     {
@@ -134,7 +147,7 @@ public class PagosPagoDoctoRelacionado
         }
     }
 
-    /// <remarks/>
+    
     [XmlAttribute(DataType = "integer")]
     public string NumParcialidad
     {
@@ -148,7 +161,7 @@ public class PagosPagoDoctoRelacionado
         }
     }
 
-    /// <remarks/>
+    
     [XmlAttribute]
     public decimal ImpSaldoAnt
     {
@@ -162,7 +175,7 @@ public class PagosPagoDoctoRelacionado
         }
     }
 
-    /// <remarks/>
+    
     [XmlIgnore]
     public bool ImpSaldoAntSpecified
     {
@@ -176,7 +189,7 @@ public class PagosPagoDoctoRelacionado
         }
     }
 
-    /// <remarks/>
+    
     [XmlAttribute]
     public decimal ImpPagado
     {
@@ -190,7 +203,7 @@ public class PagosPagoDoctoRelacionado
         }
     }
 
-    /// <remarks/>
+    
     [XmlIgnore]
     public bool ImpPagadoSpecified
     {
@@ -204,7 +217,7 @@ public class PagosPagoDoctoRelacionado
         }
     }
 
-    /// <remarks/>
+    
     [XmlAttribute]
     public decimal ImpSaldoInsoluto
     {
@@ -218,7 +231,7 @@ public class PagosPagoDoctoRelacionado
         }
     }
 
-    /// <remarks/>
+    
     [XmlIgnore]
     public bool ImpSaldoInsolutoSpecified
     {

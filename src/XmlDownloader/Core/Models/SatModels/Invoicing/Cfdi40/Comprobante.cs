@@ -2,6 +2,7 @@
 // <Author>                                                                             *
 //     Jesús Mendoza Jaurez.                                                            *
 //     mendoza.git@gmail.com                                                            *
+//     https://github.com/mendozagit                                                    *
 //                                                                                      *
 //     Los cambios en este archivo podrían causar un comportamiento incorrecto.         *
 //     Este código no ofrece ningún tipo de garantía, se generó para ayudar a la        *
@@ -19,8 +20,7 @@ namespace XmlDownloader.Core.Models.SatModels.Invoicing.Cfdi40
 {
     [Serializable, XmlType(AnonymousType = true), XmlRoot(IsNullable = false)]
 
-    //[XmlType(AnonymousType = true, Namespace = "http://www.sat.gob.mx/cfd/3")]
-    //[XmlRoot(Namespace = "http://www.sat.gob.mx/cfd/3", IsNullable = false)]
+   
     public class Comprobante
     {
         public TimbreFiscalDigital? TimbreFiscalDigital;

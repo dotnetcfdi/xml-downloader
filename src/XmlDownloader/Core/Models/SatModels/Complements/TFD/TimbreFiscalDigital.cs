@@ -1,15 +1,15 @@
-﻿//*********************************************************************************
-// <Author>
-//     Jesús Mendoza Jaurez. 
-//     mendoza.git@gmail.com
-//
-//     Los cambios en este archivo podrían causar un comportamiento incorrecto.
-
-//     Este código no ofrece ningún tipo de garantía, se generó para ayudar a la 
-//     Comunidad open source, siéntanse libre de utilizarlo, sin ninguna garantía.
-//     Nota: Mantenga este comentario para respetar al autor.
-// </Author>
-//*********************************************************************************
+﻿//***************************************************************************************
+// <Author>                                                                             *
+//     Jesús Mendoza Jaurez.                                                            *
+//     mendoza.git@gmail.com                                                            *
+//     https://github.com/mendozagit                                                    *
+//                                                                                      *
+//     Los cambios en este archivo podrían causar un comportamiento incorrecto.         *
+//     Este código no ofrece ningún tipo de garantía, se generó para ayudar a la        *
+//     Comunidad open source, siéntanse libre de utilizarlo, sin ninguna garantía.      *
+//     Nota: Mantenga este comentario para respetar al autor.                           *
+// </Author>                                                                            *
+//***************************************************************************************
 
 
 using System.Xml.Serialization;
@@ -42,7 +42,7 @@ namespace XmlDownloader.Core.Models.SatModels.Complements.TFD
             versionField = "1.1";
         }
 
-        /// <remarks/>
+        
         [XmlAttribute]
         public string Version
         {
@@ -56,7 +56,7 @@ namespace XmlDownloader.Core.Models.SatModels.Complements.TFD
             }
         }
 
-        /// <remarks/>
+        
         [XmlAttribute]
         public string UUID
         {
@@ -70,7 +70,7 @@ namespace XmlDownloader.Core.Models.SatModels.Complements.TFD
             }
         }
 
-        /// <remarks/>
+        
         [XmlAttribute]
         public DateTime FechaTimbrado
         {
@@ -84,7 +84,7 @@ namespace XmlDownloader.Core.Models.SatModels.Complements.TFD
             }
         }
 
-        /// <remarks/>
+        
         [XmlAttribute]
         public string RfcProvCertif
         {
@@ -98,7 +98,7 @@ namespace XmlDownloader.Core.Models.SatModels.Complements.TFD
             }
         }
 
-        /// <remarks/>
+        
         [XmlAttribute]
         public string Leyenda
         {
@@ -112,7 +112,7 @@ namespace XmlDownloader.Core.Models.SatModels.Complements.TFD
             }
         }
 
-        /// <remarks/>
+        
         [XmlAttribute]
         public string SelloCFD
         {
@@ -126,7 +126,7 @@ namespace XmlDownloader.Core.Models.SatModels.Complements.TFD
             }
         }
 
-        /// <remarks/>
+        
         [XmlAttribute]
         public string NoCertificadoSAT
         {
@@ -140,7 +140,7 @@ namespace XmlDownloader.Core.Models.SatModels.Complements.TFD
             }
         }
 
-        /// <remarks/>
+        
         [XmlAttribute]
         public string SelloSAT
         {

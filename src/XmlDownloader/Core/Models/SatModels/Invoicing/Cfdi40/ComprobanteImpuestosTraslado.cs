@@ -2,6 +2,7 @@
 // <Author>                                                                             *
 //     Jesús Mendoza Jaurez.                                                            *
 //     mendoza.git@gmail.com                                                            *
+//     https://github.com/mendozagit                                                    *
 //                                                                                      *
 //     Los cambios en este archivo podrían causar un comportamiento incorrecto.         *
 //     Este código no ofrece ningún tipo de garantía, se generó para ayudar a la        *
@@ -15,7 +16,7 @@ using System.Xml.Serialization;
 namespace XmlDownloader.Core.Models.SatModels.Invoicing.Cfdi40
 {
     [Serializable]
-    // [XmlType(AnonymousType = true, Namespace = "http://www.sat.gob.mx/cfd/4")]
+  
     public class ComprobanteImpuestosTraslado
     {
         private decimal baseField;

@@ -1,8 +1,21 @@
-﻿using System.Xml.Serialization;
+﻿//***************************************************************************************
+// <Author>                                                                             *
+//     Jesús Mendoza Jaurez.                                                            *
+//     mendoza.git@gmail.com                                                            *
+//     https://github.com/mendozagit                                                    *
+//                                                                                      *
+//     Los cambios en este archivo podrían causar un comportamiento incorrecto.         *
+//     Este código no ofrece ningún tipo de garantía, se generó para ayudar a la        *
+//     Comunidad open source, siéntanse libre de utilizarlo, sin ninguna garantía.      *
+//     Nota: Mantenga este comentario para respetar al autor.                           *
+// </Author>                                                                            *
+//***************************************************************************************
+
+using System.Xml.Serialization;
 
 namespace XmlDownloader.Core.Models.SatModels.Complements.Payments.Pago10;
 
-/// <remarks/>
+
 [Serializable,
  XmlType(AnonymousType = true, Namespace = "http://www.sat.gob.mx/Pagos")]
 public class PagosPagoImpuestos
@@ -20,7 +33,7 @@ public class PagosPagoImpuestos
 
     private bool totalImpuestosTrasladadosFieldSpecified;
 
-    /// <remarks/>
+    
     [XmlArrayItem("Retencion", IsNullable = false)]
     public PagosPagoImpuestosRetencion[] Retenciones
     {
@@ -34,7 +47,7 @@ public class PagosPagoImpuestos
         }
     }
 
-    /// <remarks/>
+    
     [XmlArrayItem("Traslado", IsNullable = false)]
     public PagosPagoImpuestosTraslado[] Traslados
     {
@@ -48,7 +61,7 @@ public class PagosPagoImpuestos
         }
     }
 
-    /// <remarks/>
+    
     [XmlAttribute]
     public decimal TotalImpuestosRetenidos
     {
@@ -62,7 +75,7 @@ public class PagosPagoImpuestos
         }
     }
 
-    /// <remarks/>
+    
     [XmlIgnore]
     public bool TotalImpuestosRetenidosSpecified
     {
@@ -76,7 +89,7 @@ public class PagosPagoImpuestos
         }
     }
 
-    /// <remarks/>
+    
     [XmlAttribute]
     public decimal TotalImpuestosTrasladados
     {
@@ -90,7 +103,7 @@ public class PagosPagoImpuestos
         }
     }
 
-    /// <remarks/>
+    
     [XmlIgnore]
     public bool TotalImpuestosTrasladadosSpecified
     {
