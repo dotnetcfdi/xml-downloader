@@ -7,21 +7,16 @@
         public static bool EnableRedundantPacketWriter { get; set; } = true;
         public static string PackageExtension { get; set; } = ".Zip";
 
-        public static string PackagesDirectory { get; set; } =  Path.Combine(Environment.CurrentDirectory, "PackagesDirectory");
+        public static string PackagesDirectory { get; set; } =
+            Path.Combine(Environment.CurrentDirectory, "PackagesDirectory");
+
         public static string WorkDirectory { get; set; } = Path.Combine(Environment.CurrentDirectory, "WorkDirectory");
 
         public static string LogsDirectory { get; set; } = Path.Combine(Environment.CurrentDirectory, "XmlLogs");
 
 
-        public static string RootNameSpace33 = @"http://www.sat.gob.mx/cfd/3";
-        public static string RootNameSpace40 { get; set; } = @"http://www.sat.gob.mx/cfd/4";
-
-
-        public static string RootNameSpacePago33 = @"http://www.sat.gob.mx/Pagos";
-        public static string RootNameSpacePago40 { get; set; } = @"http://www.sat.gob.mx/Pagos20";
-
-
-
+        public const string RootNameSpace33 = @"http://www.sat.gob.mx/cfd/3";
+        public const string RootNameSpace40 = @"http://www.sat.gob.mx/cfd/4";
 
         #endregion
     }
