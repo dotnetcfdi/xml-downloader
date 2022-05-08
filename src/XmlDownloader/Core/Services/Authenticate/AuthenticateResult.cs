@@ -1,4 +1,4 @@
-﻿using XmlDownloader.Core.Common;
+﻿using XmlDownloader.Core.Services.Common;
 
 namespace XmlDownloader.Core.Services.Authenticate
 {

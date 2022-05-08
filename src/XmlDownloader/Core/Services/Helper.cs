@@ -2,20 +2,20 @@
 using System.Text.RegularExpressions;
 using System.Web;
 using System.Xml;
-using System.Xml.Schema;
 using System.Xml.Serialization;
-using XmlDownloader.Core.Common;
+using XmlDownloader.Core.Helpers;
 using XmlDownloader.Core.Models;
 using XmlDownloader.Core.Models.SatModels.Complements.Payments.Pago20;
 using XmlDownloader.Core.Models.SatModels.Complements.TFD;
 using XmlDownloader.Core.Models.SatModels.Invoicing.Cfdi40;
 using XmlDownloader.Core.Services.Authenticate;
+using XmlDownloader.Core.Services.Common;
 using XmlDownloader.Core.Services.Download;
 using XmlDownloader.Core.Services.Query;
 using XmlDownloader.Core.Services.Verify;
 using static System.Convert;
 
-namespace XmlDownloader.Core.Helpers
+namespace XmlDownloader.Core.Services
 {
     public static class Helper
     {

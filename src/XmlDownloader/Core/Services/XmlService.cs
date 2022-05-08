@@ -1,23 +1,26 @@
 ﻿using Credencials.Core;
 using XmlDownloader.Core.Builder;
 using XmlDownloader.Core.Helpers;
+using XmlDownloader.Core.Models;
+using XmlDownloader.Core.Models.SatModels.Invoicing.Cfdi40;
+using XmlDownloader.Core.Packaging;
 using XmlDownloader.Core.Services.Authenticate;
+using XmlDownloader.Core.Services.Common;
 using XmlDownloader.Core.Services.Download;
 using XmlDownloader.Core.Services.Query;
 using XmlDownloader.Core.Services.Verify;
 
-namespace XmlDownloader.Core;
+namespace XmlDownloader.Core.Services;
 
-public class XmlDownloaderService
+public class XmlService
 {
     private readonly ICredential credential;
     private readonly SoapEnvelopeBuilder soapEnvelopeBuilder;
 
 
-
     public AuthenticateResult? Token { get; set; }
 
-    public XmlDownloaderService(ICredential credential, AuthenticateResult? token = null)
+    public XmlService(ICredential credential, AuthenticateResult? token = null)
     {
         this.credential = credential;
         soapEnvelopeBuilder = new SoapEnvelopeBuilder(credential);
@@ -167,5 +170,18 @@ public class XmlDownloaderService
     }
 
 
-    
+    public async Task<List<MetadataItem>> GetMetadataAsync(DownloadResult result)
+    {
+        var metadata = await PackageManager.GetMetadataAsync(result);
+
+        return metadata;
+    }
+
+
+    public async Task<List<Comprobante>> GetCfdisAsync(DownloadResult result)
+    {
+        var cfdis = await PackageManager.GetCfdisAsync(result);
+
+        return cfdis;
+    }
 }

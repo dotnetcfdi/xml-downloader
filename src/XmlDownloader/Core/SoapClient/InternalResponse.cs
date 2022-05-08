@@ -1,5 +1,5 @@
 ﻿using System.Net;
-using XmlDownloader.Core.Common;
+using XmlDownloader.Core.Services.Common;
 
 namespace XmlDownloader.Core.SoapClient
 {

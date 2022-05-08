@@ -1,7 +1,7 @@
 ﻿using XmlDownloader.Core.Builder;
-using XmlDownloader.Core.Common;
 using XmlDownloader.Core.Helpers;
 using XmlDownloader.Core.Services.Authenticate;
+using XmlDownloader.Core.Services.Common;
 using XmlDownloader.Core.SoapClient;
 
 namespace XmlDownloader.Core.Services.Query

@@ -3,6 +3,7 @@ using System.Reflection;
 using XmlDownloader.Core.Helpers;
 using XmlDownloader.Core.Models;
 using XmlDownloader.Core.Models.SatModels.Invoicing.Cfdi40;
+using XmlDownloader.Core.Services;
 using XmlDownloader.Core.Services.Download;
 
 namespace XmlDownloader.Core.Packaging
@@ -15,7 +16,7 @@ namespace XmlDownloader.Core.Packaging
 
             var metadata = new List<MetadataItem>();
 
-            var successfulWriting = await WriteZipAsync(result);
+            var successfulWriting = await WriteZipAsync(result).ConfigureAwait(false);
 
             if (!successfulWriting)
                 return metadata;
@@ -28,7 +29,7 @@ namespace XmlDownloader.Core.Packaging
 
 
             foreach (var fileModel in files)
-                metadata.AddRange(await GetMetadataFromSingleFileAsync(fileModel));
+                metadata.AddRange(await GetMetadataFromSingleFileAsync(fileModel).ConfigureAwait(false));
 
 
             return metadata;
@@ -41,7 +42,7 @@ namespace XmlDownloader.Core.Packaging
 
             var cfdis = new List<Comprobante>();
 
-            var successfulWriting = await WriteZipAsync(result);
+            var successfulWriting = await WriteZipAsync(result).ConfigureAwait(false);
 
             if (!successfulWriting)
                 return cfdis;

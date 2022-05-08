@@ -1,8 +1,9 @@
 ﻿using Credencials.Common;
 using Credencials.Core;
-using XmlDownloader.Core.Common;
 using XmlDownloader.Core.Helpers;
 using XmlDownloader.Core.Models;
+using XmlDownloader.Core.Services;
+using XmlDownloader.Core.Services.Common;
 
 namespace XmlDownloader.Core.Builder;
 

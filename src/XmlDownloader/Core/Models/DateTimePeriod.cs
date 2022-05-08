@@ -1,4 +1,5 @@
 ﻿using XmlDownloader.Core.Helpers;
+using XmlDownloader.Core.Services;
 
 namespace XmlDownloader.Core.Models;
 

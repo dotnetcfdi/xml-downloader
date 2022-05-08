@@ -1,6 +1,4 @@
-﻿using XmlDownloader.Core.Common;
-
-namespace XmlDownloader.Core.Services.Query
+﻿namespace XmlDownloader.Core.Services.Common
 {
     public class QueryParameters
     {

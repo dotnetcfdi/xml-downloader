@@ -1,6 +1,6 @@
 ﻿using System.Text;
-using XmlDownloader.Core.Common;
 using XmlDownloader.Core.Services.Authenticate;
+using XmlDownloader.Core.Services.Common;
 
 namespace XmlDownloader.Core.SoapClient
 {
