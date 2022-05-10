@@ -44,14 +44,9 @@ namespace XmlDownloader.Core.Services.Query
             var internalResponse = await InternalHttpClient.SendAsync(internalRequest);
 
 
-            await File.WriteAllTextAsync($"{internalResponse.EndPointName}-Request.xml",
-                internalResponse?.InternalRequest?.RawRequest);
-            await File.WriteAllTextAsync($"{internalResponse?.EndPointName}-Response.xml",
-                internalResponse?.RawResponse);
-
-
             var result = Helper.GetQueryResult(internalResponse?.RawResponse);
-
+            result.InternalRequest = internalRequest;
+            result.InternalResponse = internalResponse;
 
             return result;
         }

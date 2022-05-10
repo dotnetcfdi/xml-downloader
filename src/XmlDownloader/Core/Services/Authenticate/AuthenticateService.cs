@@ -39,13 +39,11 @@ namespace XmlDownloader.Core.Services.Authenticate
             var internalResponse = await InternalHttpClient.SendAsync(internalRequest);
 
 
-            await File.WriteAllTextAsync($"{internalResponse.EndPointName}-Request.xml",
-                internalResponse?.InternalRequest?.RawRequest);
-            await File.WriteAllTextAsync($"{internalResponse?.EndPointName}-Response.xml",
-                internalResponse?.RawResponse);
-
             //token
             var result = Helper.GetAuthenticateResult(internalResponse?.RawResponse);
+            result.InternalRequest = internalRequest;
+            result.InternalResponse = internalResponse;
+
 
             return result;
         }

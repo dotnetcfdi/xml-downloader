@@ -38,14 +38,9 @@ namespace XmlDownloader.Core.Services.Verify
             var internalResponse = await InternalHttpClient.SendAsync(internalRequest);
 
 
-            await File.WriteAllTextAsync($"{internalResponse.EndPointName}-Request.xml",
-                internalResponse?.InternalRequest?.RawRequest);
-            await File.WriteAllTextAsync($"{internalResponse?.EndPointName}-Response.xml",
-                internalResponse?.RawResponse);
-
-
             var result = Helper.GetVerifyResult(internalResponse?.RawResponse);
-
+            result.InternalRequest = internalRequest;
+            result.InternalResponse = internalResponse;
 
             return result;
         }

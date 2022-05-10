@@ -1,6 +1,5 @@
 ﻿using Credencials.Core;
 using XmlDownloader.Core.Builder;
-using XmlDownloader.Core.Helpers;
 using XmlDownloader.Core.Models;
 using XmlDownloader.Core.Models.SatModels.Invoicing.Cfdi40;
 using XmlDownloader.Core.Packaging;
@@ -18,7 +17,10 @@ public class XmlService
     private readonly SoapEnvelopeBuilder soapEnvelopeBuilder;
 
 
-    public AuthenticateResult? Token { get; set; }
+    /// <summary>
+    /// Gets or sets the token, after the call to the authenticate method
+    /// </summary>
+    private AuthenticateResult? Token { get; set; }
 
     public XmlService(ICredential credential, AuthenticateResult? token = null)
     {
@@ -37,12 +39,12 @@ public class XmlService
     public async Task<AuthenticateResult> GetCurrentToken()
     {
         if (Token is null || !Token.IsValid())
-            Token = await Authenticate();
+            Token = await AuthenticateAsync();
 
         return Token;
     }
 
-    public async Task<AuthenticateResult> Authenticate()
+    public async Task<AuthenticateResult> AuthenticateAsync()
     {
         var service = new AuthenticateService(soapEnvelopeBuilder);
         Token = await service.Authenticate();

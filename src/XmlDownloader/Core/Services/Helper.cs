@@ -422,7 +422,7 @@ namespace XmlDownloader.Core.Services
 
         #region Xml
 
-        public static Comprobante? Deserialize(string xmlPath)
+        internal static Comprobante? Deserialize(string xmlPath)
         {
             var cfdiInfo = GetInvoiceVersion(xmlPath);
 
