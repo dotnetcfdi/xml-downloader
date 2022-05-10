@@ -1,4 +1,4 @@
-# dotnetcfdi/XmlDownloader (sat-ws-descarga-masiva)
+# dotnetcfdi/xml-downloader (sat-ws-descarga-masiva)
 
 ---
 :us: The documentation of this project is in spanish as this is the natural language for intended audience.
