@@ -234,6 +234,7 @@ Actualmente compatible con `.NET 6`, winforms, console y web.
 Las contribuciones con bienvenidas. Por favor lee [CONTRIBUTING][] para más detalles
 y recuerda revisar el archivo de tareas pendientes [TODO][] y el archivo [CHANGELOG][].
 
+
 ## Roadmap Features 
 - [x] Descargar cfdi emitidos y recibidos
 - [x] Descargar metadata de cfdi emitidos y recibidos
