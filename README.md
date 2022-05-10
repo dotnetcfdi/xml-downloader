@@ -58,12 +58,66 @@ Install-Package DotnetCfdi.XmlDownloader -Version 1.0.0
 
 :warning: Esta libreria depende de [dotnetcfdi/credentials](https://github.com/dotnetcfdi/credentials/) se recomienda leer la documentación y volver a este punto.
 
+ 
+
+## Acerca del Servicio Web de Descarga Masiva de CFDI y Retenciones
+
+El servicio se compone de 4 partes:
+
+1. Autenticación: Esto se hace con tu FIEL y la libería oculta la lógica de obtener y usar el Token.
+2. Solicitud: Presentar una solicitud incluyendo la fecha de inicio, fecha de fin, tipo de solicitud
+   emitidas/recibidas y tipo de información solicitada (cfdi o metadata).
+3. Verificación: pregunta al SAT si ya tiene disponible la solicitud.
+4. Descargar los paquetes emitidos por la solicitud.
+
+El siguiente diagrama muestra el macro flujo del uso del los web services del SAT.
+![Diagram](https://user-images.githubusercontent.com/28969854/167732245-23c30b94-3feb-4d89-bee6-2b0f591203cf.svg)
+
+
+### Información oficial
+
+- Liga oficial del SAT
+  <https://www.sat.gob.mx/consultas/42968/consulta-y-recuperacion-de-comprobantes-(nuevo)>
+- Solicitud de descargas para CFDI y retenciones:
+  <https://www.sat.gob.mx/cs/Satellite?blobcol=urldata&blobkey=id&blobtable=MungoBlobs&blobwhere=1579314716402&ssbinary=true>
+- Verificación de descargas de solicitudes exitosas:
+  <https://www.sat.gob.mx/cs/Satellite?blobcol=urldata&blobkey=id&blobtable=MungoBlobs&blobwhere=1579314716409&ssbinary=true>
+- Descarga de solicitudes exitosas:
+  <https://www.sat.gob.mx/cs/Satellite?blobcol=urldata&blobkey=id&blobtable=MungoBlobs&blobwhere=1579314716395&ssbinary=true>
+
+Notas importantes del web service:
+
+- Podrás recuperar hasta 200 mil registros por petición y hasta 1,000,000 en metadata.
+- No existe limitante en cuanto al número de solicitudes siempre que no se descargue en más de dos ocasiones un XML.
+
+### Notas de uso
+
+- No se aplica la restricción de la documentación oficial: *que no se descargue en más de dos ocasiones un XML*.
+
+Se ha encontrado que la regla relacionada con las descargas de tipo CFDI no se aplica en la forma como está redactada.
+Sin embargo, se ha encontrado que la regla que sí aplica es: *no solicitar en más de 2 ocasiones el mismo periodo*.
+Cuando esto ocurre, el proceso de solicitud devuelve el mensaje *"5002: Se han agotado las solicitudes de por vida"*.
+
+Recuerda que, si se cambia la fecha inicial o final en al menos un segundo ya se trata de otro periodo,
+por lo que si te encuentras en este problema podrías solucionarlo de esta forma.
+
+En consultas del tipo Metadata no se aplica la limitante mencionada anteriormente, por ello es recomendable
+hacer las pruebas de implementación con este tipo de consulta.
+
+- Tiempo de respuesta entre la presentación de la consulta y su verificación exitosa.
+
+No se ha podido encontrar una constante para suponer el tiempo que puede tardar una consulta en regresar un estado
+de verificación exitosa y que los paquetes estén listos para descargarse.
+
+En nuestra experiencia, entre más grande el periodo y más consultas se presenten más lenta es la respuesta,
+y puede ser desde minutos a horas. Por lo general es raro que excedan 24 horas.
+Sin embargo, varios usuarios han experimentado casos raros (posiblemente por problemas en el SAT) en donde las
+solicitudes han llegado a tardar hasta 72 horas para ser completadas.
+
 ## Ejemplos de uso
 
-Todos los objetos de entrada y salida se pueden exportar como JSON, adicionalmente  las clases `AuthenticateResult` `QueryResult` `VerifyResult` y  `DownloadResult` implementan la la interface  `IHasInternalRequestResponse` que exponen la propiedad `RawRequest` y `RawResponse` que permite recuperar el mensaje `SOAP Envelope` de cada uno de los servicios, también implementan `IHasSuccessResponse` que expone una propiedad `bool` que indica si la operacion fue exitosa o no, estas características fueron pensadas para facilitar el análisis y depuración en producción o en desarrollo. 
-
-
-### Creación el servicio
+Todos los objetos de entrada y salida se pueden exportar como JSON, adicionalmente  las clases `AuthenticateResult` `QueryResult` `VerifyResult` y  `DownloadResult` implementan la la interface  `IHasInternalRequestResponse` que exponen la propiedad `RawRequest` y `RawResponse` que permite recuperar el mensaje `SOAP Envelope` de cada uno de los servicios, también implementan `IHasSuccessResponse` que expone una propiedad `bool` que indica si la operacion fue exitosa o no, estas características fueron pensadas para facilitar el análisis y depuración en producción o en desarrollo.
+### Creación del servicio
 
 Ejemplo creando el servicio usando una FIEL disponible localmente.
 
