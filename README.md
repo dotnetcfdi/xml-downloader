@@ -119,11 +119,104 @@ solicitudes han llegado a tardar hasta 72 horas para ser completadas.
 Todos los objetos de entrada y salida se pueden exportar como JSON, adicionalmente  las clases `AuthenticateResult` `QueryResult` `VerifyResult` y  `DownloadResult` implementan la la interface  `IHasInternalRequestResponse` que exponen la propiedad `RawRequest` y `RawResponse` que permite recuperar el mensaje `SOAP Envelope` de cada uno de los servicios, también implementan `IHasSuccessResponse` que expone una propiedad `bool` que indica si la operacion fue exitosa o no, estas características fueron pensadas para facilitar el análisis y depuración en producción o en desarrollo.
 ### Creación del servicio
 
-Ejemplo creando el servicio usando una FIEL disponible localmente.
+Ejemplo (vea los detalles en el proyecto demo de la carpeta `samples/WinFormApp`, esto funciona tanto en web, console y desktop. (.NET 6 por ahora)
+
 
 ```csharp
 C#
 
+  private async void CfdiButton_Click(object sender, EventArgs e)
+        {
+
+
+            #region Generar objeto credential 
+
+            //Descomenta si quieres construir la credencil desde los archivos
+            //credential = GetCredentialFromFiles();
+
+            //Descomenta si quieres construir la credencil desde los string base64 de los archivos
+            //Normalmente este proceso es utilizado porque solo lees los bytes de los archivos, 
+            //Despues codificas los Bytes en base 64 y entonces los puedes almacenar y recuperar en cualquier db
+            //esto es muy util en aplicaciones web, y en desktop cuando no quieres enfrentar problemas con rutas de los .cer/.key
+            credential = GetCredentialFromDataBase(); // GetCredentialFromFiles();
+
+
+            #endregion
+
+            ConfigureGlobalSettings();
+
+            service = new XmlService(credential);
+
+
+            //De acuerdo con la documentación del SAT,  el token de autorización se construye por 5 minutos y este token se utiliza en los cuatro web services que integran la descarga masiva,
+            //el token se debe verificar cada 5 minutos y en caso de que esté expirado, entonces solicitar uno nuevo, todas esas tareas las gestiona automáticamente la librería,
+            //por lo cual el uso del token para el desarrollador es exclusivamente informativo. 
+
+            //No es necesario almacenar manualmente el token todas las tareas de autenticacion y autorización
+            //son  gestionadas internamente por el paquete, solo haga la llamada a AuthenticateAsync()
+            var authResult = await service.AuthenticateAsync();
+
+
+            if (!authResult.IsSuccess) return; //Indica si la operacion fue exitosa, si no romper el flujo.
+
+
+            //Este objeto es la parametrización de del segundo web service, en este objeto se pueden informar las configuraciones deseadas,
+            //por ejemplo, si quieres descargar CFDI emitidos o recibidos, si quieres CFDI o Metadata, así como el periodo que comprende la información deseada.
+            //Este objeto es enviado como parametro al web service Query (llamado por el SAT solocitud)
+            var queryParameters = GetQueryParameters();
+            var queryResult = await service.Query(queryParameters);
+            if (!queryResult.IsSuccess) return; //Indica si la operacion fue exitosa, si no romper el flujo.
+
+
+            //Esperar un tiempo para preguntar por el estado de nuestra solicitud, si omites la espera,
+            //los más probable es que el SAT de indique que aún no está lista su solicitud,
+            //No hay un tiempo específico, mi recomendación es al menos 1 minuto (60,000 ms), pero puedes colocar mucho más,
+            //no te preocupes por la vigencia del token, el paquete renovará automáticamente en segundo plano, si este se expira.
+            //Se recomienda consumir estos web services en segundo plano porque la espera del hilo principal genera "mala experiencia de usuario".
+            //Exiten varias librerias que atienden esta necesidad por ej. (https://www.quartz-scheduler.net/ | https://www.hangfire.io/ | https://docs.microsoft.com/en-us/dotnet/api/system.componentmodel.backgroundworker?view=net-6.0) 
+            Thread.Sleep(60_000);
+
+
+            //Después de generar la llamada al web servicie query (solicitud por el SAT), el sat NO devuelve los cfdis o Metadata de esa solicitud,
+            //solo nos confirma o declina que ya recibió la solicitud, pero debemos esperar un tiempo antes de consultar el tercer web service (Verify).
+            //Verify permite conocer el estado de nuestra solicitud, para cuando esté lista, entonces consumir el ultimo web service (download)
+            var verifyResult = await service.Verify(queryResult.RequestUuid);
+            if (!verifyResult.IsSuccess) return; //Indica si la operacion fue exitosa, si no romper el flujo.
+
+
+            foreach (var packageId in verifyResult.PackagesIds)
+            {
+                var downloadResult = await service.Download(packageId);
+                if (!downloadResult.IsSuccess) return; //Indica si la operacion fue exitosa, si no romper el flujo.
+
+
+                //Tenga cuidado con el uso de este método GetCfdisAsync(), es te método es de gran utilidad,
+                //porque te va entregar una lista de objetos Comprobante que representa cada
+                //XML descargado.  con ello tu puedes acceder a todas las propiedades del cfdi,,
+                //desde el uuid, emisor, receptor conceptos, impuestos, timbre, complementos, etc.
+                //En lugar de una simple ruta donde se escribió el paquete .ZIP de XMls,
+                //sin embargo esto tiene un costo en memoria RAM, por lo cual le sugiero encarecidamente
+                //que los periodos de tiempo de las consultas no sean exagerados, porque descargará todos los xml y después des de-serializa y carga en memoria. 
+
+                //En términos generales, entre mas corto sea el periodo de la consulta, menos
+                //memoria RAM consume este método y viceversa. 
+                var cfdiList = await service.GetCfdisAsync(downloadResult);
+
+
+                //En el caso de que el objeto queryParameters esté configurado para metadata,
+                //consumir invocar GetMetadataAsync(downloadResult), en lugar de GetCfdisAsync(downloadResult)
+                // var metadata = await service.GetMetadataAsync(downloadResult);
+
+
+                //NOTA IMPORTANTE//
+                /*
+                 * Si usted no está dispuesto o la naturaleza de su aplicación no le permite asumir el
+                 * costo de la deserialización y carga a memoria de del método GetCfdisAsync(downloadResult),
+                 * siéntase libre de no invocarlo, el paquete de cfdi ya está descargado y almacenado en la ruta establecida en ‘Settings.PackagesDirectory’,
+                 * usted puede implementar los métodos para la lectura y/o tratamiento de de los mismos,
+                 * GetCfdisAsync(), GetMetadataAsync() son helpers, pero la descarga ya está en su equipo.
+                 */
+            }
 
 ```
 
