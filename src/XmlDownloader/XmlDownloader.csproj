@@ -4,7 +4,30 @@
     <TargetFramework>net6.0</TargetFramework>
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
+    <GeneratePackageOnBuild>True</GeneratePackageOnBuild>
+    <PackageId>DotnetCfdi.XmlDownloader</PackageId>
+    <Description>Esta librería es una de varias que existen dentro de dotnetcfdi, fue creada para consultar y descargar las facturas que emites y recibes, también se podrá recuperar la información básica de identificación de las facturas llamado metadata.</Description>
+    <Authors>DotnetCfdi</Authors>
+    <Copyright>DotnetCfdi</Copyright>
+    <PackageProjectUrl>https://github.com/dotnetcfdi/XmlDownloader</PackageProjectUrl>
+    <PackageIcon>dotnetcfdi-png.png</PackageIcon>
+    <RepositoryUrl>https://github.com/dotnetcfdi/XmlDownloader.git</RepositoryUrl>
+    <PackageTags>Descarga-masiva-xml;SAT;CFDI;METADATA;FACTURAS</PackageTags>
+    <AssemblyVersion>1.1.1</AssemblyVersion>
+    <FileVersion>$(AssemblyVersion)</FileVersion>
+    <Version>$(AssemblyVersion)</Version>
+    <PackageReleaseNotes>version inicial</PackageReleaseNotes>
+    <PackageLicenseExpression>MIT</PackageLicenseExpression>
+    <PackageRequireLicenseAcceptance>True</PackageRequireLicenseAcceptance>
+    <Product>XmlDownloader (sat-ws-descarga-masiva)</Product>
   </PropertyGroup>
+
+  <ItemGroup>
+    <None Include="..\..\docs\dotnetcfdi-png.png">
+      <Pack>True</Pack>
+      <PackagePath>\</PackagePath>
+    </None>
+  </ItemGroup>
 
   <ItemGroup>
     <PackageReference Include="DotnetCfdi.Credentials" Version="1.3.3" />

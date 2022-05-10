@@ -126,7 +126,7 @@ namespace WinFormsApp
         private ICredential GetCredentialFromFiles()
         {
             //Creating a certificate instance
-            var cerPath = @"C:\Users\PHILIPS.JESUSMENDOZA\Desktop\cer.cer";
+            var cerPath = @"C:\Users\JESUSMENDOZA\Desktop\cer.cer";
             var cerBytes = File.ReadAllBytes(cerPath);
             var cerBase64 = Convert.ToBase64String(cerBytes);
             var certificate =
@@ -134,12 +134,12 @@ namespace WinFormsApp
                     cerBase64); //puedes guardar cerBase64 en la db, entonces omite las lineas anteriores y crea el objeto recuperando cerBase64 de la db
 
             //Creating a private key instance
-            var keyPath = @"C:\Users\PHILIPS.JESUSMENDOZA\Desktop\key.key";
+            var keyPath = @"C:\Users\JESUSMENDOZA\Desktop\key.key";
             var keyBytes = File.ReadAllBytes(keyPath);
             var keyBase64 = Convert.ToBase64String(keyBytes);
             var privateKey =
                 new PrivateKey(keyBase64,
-                    "DGE131017"); //puedes guardar keyBase64 en la db, entonces omite las lineas anteriores y crea el objeto recuperandolo db
+                    "YourPassPhrase"); //puedes guardar keyBase64 en la db, entonces omite las lineas anteriores y crea el objeto recuperandolo db
 
 
             //Create a credential instance, certificate and privatekey previously created.
@@ -154,7 +154,7 @@ namespace WinFormsApp
             //get cerBase64 from your database (see readme from https://github.com/dotnetcfdi/credentials)
 
             var cerBase64 =
-                "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";
+                "YourCerBase64String";
             var certificate =
                 new Certificate(
                     cerBase64); //puedes guardar cerBase64 en la db, entonces omite las lineas anteriores y crea el objeto recuperando cerBase64 de la db
@@ -164,10 +164,10 @@ namespace WinFormsApp
             //get cerBase64 from your database (see readme from https://github.com/dotnetcfdi/credentials)
 
             var keyBase64 =
-                "MIIFDjBABgkqhkiG9w0BBQ0wMzAbBgkqhkiG9w0BBQwwDgQIAgEAAoIBAQACAggAMBQGCCqGSIb3DQMHBAgwggS+AgEAMASCBMh9+jQFIsJGmRB8Ne0DDLPLROR1hBR2Zzcie0kjyWAyvr4Rj3WSTuGyloRP+vtHyKvApoMQd1QiNAxWSlBpJbyYNUd6U2kcfGZsjmmwQGbqCxDgiLrhUO9VxSxC4WBJrgY2uR8MNMBtkihTfAmoQWM/zifW7BwZyYPyf5DQF/IJjadu13F0VeHDNMDdU2jio9KlQOwB8bDN/3FsMqEurX4y/UHP7wTujFHn0SVujX4dGsrQf5dz/tzVaedtQ3SnloT2IkhwTwNKKeeE5ZuI5fvOT7wQ1eIMbJ4O5sC7p7eieyjPbk8rMnKEm/829WbKvN5Arl6H13DzvSxnBkUtXOxREfIEAMzAg11nRzxyXsxBHL55AOrAhQ3WiJdEerlVqoikYobM3NWbOz4GnVFZogYOJsdCdh1ehgyFrxjfN8ZhSRPwJ4REds2Y8Z93wMK3U7xdRzZ1wCNOW8adgTj3zGNTZ14dKZRp02K33giIgjjXG7gUYYKQgOf0WgTSj1agsfrAjHhR7t0Zico2RjSzSpyGeJn4EfvescgztXq35IvrS42+znclWO0aIBSZYNewSdq9lP7pEsvqgpNbIdeDZgipIesu/pG81z2V34LfcT1lznXInF/49qnVynCYNVJXdsXHDLOC4t5CH6DbTVVkekaUlynAkmdqh88y1sL1a6UBk3ejexnLAGLATyl/yFpSi4Q40XZ3egqjYvStpWGU0/RSnGygnTgjXDzuBYXI4R3KWIVhNYUAoFeaE3BfhrTulLtOPIFAxv7REM+gh68ofI0vFh2eLgejTAZ4h0KNPOOcAYdGOXPXSOu6T6IeTIB0vK0g0izdmHhGJNbrlTOl8zjHmIsU/gatsa1Q/D5lJG3kI6O/68MTFcV9GLEJBTjEvJ8FWEUoPskt8mf3mw4PC60ReiW0diO9aLSoXKNP6K1H+tYIOD+oROJp2UE8cOBixBX1QEXxAusTADOXy788QtGTQv8Dp0i/E+baX75pVio9TSMHaZTCrYHb5bOj3Dm7dDkpqccBLDgdsHQv082iuJsTMu5pZjGUKJqGSYjTLdNV/D6gMyG21tGJpEErBnE4YODEc24d6V1xMJcNZwD9ZGwcXNg1w6M5qAzhzE0mT7STYybhKFqAXb9gfvUmtTXyfZGVWdfMoJH9O71ohAotxrNvPfuTpA4u7k3SLGWaIrrlTuL3ukfIH8ge22bHArUSPmPhQLZqfhUBi+YNwzFbV7GoEsono6Vy2QL/v5fIiubMJbCLDf2FNdD+wKNCm21ie9SULENBe4JEybdAUCR4awUetCvR+WIP4tbJFFZBN1SASXZZxZH7Kh7vh6CEAMoEbnn3jkoQd3Gto/aDl56Tp8/hESyG17LYlQWuCAsQ0wsTnlKgKH+FaYvcbcUqgFCGorfTsaf3UuTRrkxMjLyzjeBru1LVIjz9M8nFkRwTyhtxin3R/cUtrEU9iqM1zNO8sT80CRVK6JHem7CpzT7aZ47WOWB9Zb9xFV8Z0r0o4wlfEWvwoEDhCtnUMjSbRCmyWKxquMFMOBtr+iiDXVHa0shSP96XvMBEFpC5629VQb1ajL9BifLRhtZN235mx+Ol2nXUUEMpM1Tsp0GrrHlwTafLncAMDOcdcWo=";
+                "YourCerBase64String";
             var privateKey =
                 new PrivateKey(keyBase64,
-                    "DGE131017"); //puedes guardar keyBase64 en la db, entonces omite las lineas anteriores y crea el objeto recuperandolo db
+                    "YourPassPhrase"); //puedes guardar keyBase64 en la db, entonces omite las lineas anteriores y crea el objeto recuperandolo db
 
 
             //Create a credential instance, certificate and privatekey previously created.
@@ -182,7 +182,7 @@ namespace WinFormsApp
                 StartDate = new DateTime(2022, 1, 14, 0, 0, 0),
                 EndDate = new DateTime(2022, 1, 17, 23, 59, 59),
                 EmitterRfc = null, //Si te interesa CFDI o Metadata emitida, entonces informa este parametro
-                ReceiverRfc = "DGE131017IP1", //Si te interesa CFDI o Metadata recibida, entonces informa este parametro
+                ReceiverRfc = "YourRfc", //Si te interesa CFDI o Metadata recibida, entonces informa este parametro
                 RequestType = RequestType.CFDI, // CFDI | Metadata 
                 DownloadType = DownloadType.Received //  Emitidos | Recibidos
             };
