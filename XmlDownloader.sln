@@ -8,6 +8,9 @@ EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "tests", "tests", "{97E5F627-594C-4B53-A5D2-9574E8C0B7C9}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "docs", "docs", "{3EA17455-082E-466A-A56A-E3EE92CCD5D6}"
+	ProjectSection(SolutionItems) = preProject
+		..\..\..\Downloads\diagrama.svg = ..\..\..\Downloads\diagrama.svg
+	EndProjectSection
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "samples", "samples", "{E4C5CF7E-EC37-4D9A-8982-FC6A5B62DB67}"
 EndProject

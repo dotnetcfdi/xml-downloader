@@ -115,8 +115,9 @@ namespace WinFormsApp
                 /*
                  * Si usted no está dispuesto o la naturaleza de su aplicación no le permite asumir el
                  * costo de la deserialización y carga a memoria de del método GetCfdisAsync(downloadResult),
-                 * siéntase libre de no invocarlo, el paquete ya está descargado en la ruta informada en la propiedad ‘Settings.PackagesDirectory’,
-                 * usted puede implementar los métodos para la lectura y/o tratamiento de de los mismos 
+                 * siéntase libre de no invocarlo, el paquete de cfdi ya está descargado y almacenado en la ruta establecida en ‘Settings.PackagesDirectory’,
+                 * usted puede implementar los métodos para la lectura y/o tratamiento de de los mismos,
+                 * GetCfdisAsync(), GetMetadataAsync() son helpers, pero la descarga ya está en su equipo.
                  */
             }
         }

@@ -1,4 +1,5 @@
 ﻿using XmlDownloader.Core.Services.Common;
+using XmlDownloader.Core.SoapClient;
 
 namespace XmlDownloader.Core.Services.Verify
 {
@@ -7,7 +8,7 @@ namespace XmlDownloader.Core.Services.Verify
     /// StatusCode=CodEstatus and Message=Mensaje properties inherited from Result and it
     /// represent the code and status message of the web service call.
     /// </summary>
-    public class VerifyResult : Result, IHasSuccessResponse
+    public class VerifyResult : Result, IHasSuccessResponse, IHasInternalRequestResponse
     {
         // StatusCode = CodEstatus
         //Message = Mensaje
@@ -26,5 +27,7 @@ namespace XmlDownloader.Core.Services.Verify
 
         //Internal flag to indicate success or failure
         public bool IsSuccess { get; set; }
+        public InternalRequest? InternalRequest { get; set; }
+        public InternalResponse? InternalResponse { get; set; }
     }
 }
