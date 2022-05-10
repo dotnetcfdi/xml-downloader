@@ -60,8 +60,7 @@ Install-Package DotnetCfdi.XmlDownloader -Version 1.0.0
 
 ## Ejemplos de uso
 
-Todos los objetos de entrada y salida se pueden exportar como JSON, adicionalmente  las clases `AuthenticateResult` `QueryResult` `VerifyResult` y  `DownloadResult` implementan la la interface  `IHasInternalRequestResponse` que exponen la propiedad `RawRequest` y `RawResponse` que permite recuperar el mensaje `SOAP Envelope` de cada uno de los servicios, también implementan `IHasSuccessResponse` que expone una propiedad `bool` que indica si la operacion fue exitosa o no, estas características fueron pensadas para facilitar el análisis y depuración.
-
+Todos los objetos de entrada y salida se pueden exportar como JSON, adicionalmente  las clases `AuthenticateResult` `QueryResult` `VerifyResult` y  `DownloadResult` implementan la la interface  `IHasInternalRequestResponse` que exponen la propiedad `RawRequest` y `RawResponse` que permite recuperar el mensaje `SOAP Envelope` de cada uno de los servicios, también implementan `IHasSuccessResponse` que expone una propiedad `bool` que indica si la operacion fue exitosa o no, estas características fueron pensadas para facilitar el análisis y depuración en producción o en desarrollo. 
 
 
 ### Creación el servicio
