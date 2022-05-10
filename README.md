@@ -69,26 +69,7 @@ Ejemplo creando el servicio usando una FIEL disponible localmente.
 
 ```csharp
 C#
-//Creating a certificate instance
-var cerPath = @"C:\Users\JESUSMENDOZA\Desktop\cer.cer";
-var cerBytes = File.ReadAllBytes(cerPath);
-var cerBase64 = Convert.ToBase64String(cerBytes); 
-var certificate = new Certificate(cerBase64); //puedes guardar cerBase64 en la db, entonces omite las lineas anteriores y crea el objeto recuperando cerBase64 de la db
 
-//show certificate basic information
-MessageBox.Show($@"PlainBase64 {certificate.PlainBase64}");
-MessageBox.Show($@"Rfc {certificate.Rfc}");
-MessageBox.Show($@"Razón social {certificate.Organization}");
-MessageBox.Show($@"SerialNumber {certificate.SerialNumber}");
-MessageBox.Show($@"CertificateNumber {certificate.CertificateNumber}");
-MessageBox.Show($@"ValidFrom {certificate.ValidFrom}");
-MessageBox.Show($@"ValidTo {certificate.ValidTo}");
-MessageBox.Show($@"IsFiel { certificate.IsFiel()}");
-MessageBox.Show($@"IsValid { certificate.IsValid()}"); // ValidTo > Today
-
-//Converts X.509 DER base64 or X.509 DER to X.509 PEM
-var pemCertificate = certificate.GetPemRepresentation();
-File.WriteAllText("MyPemCertificate.pem", pemCertificate);
 
 ```
 
