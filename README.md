@@ -241,7 +241,7 @@ y recuerda revisar el archivo de tareas pendientes [TODO][] y el archivo [CHANGE
 
 ## Copyright and License
 
-The `dotnet/credentials` library is copyright © [dotnetcfdi](https://www.dotnetcfdi.com/)
+The `dotnet/xml-downloader` library is copyright © [dotnetcfdi](https://www.dotnetcfdi.com/)
 and licensed for use under the MIT License (MIT). Please see [LICENSE][] for more information.
 
 
