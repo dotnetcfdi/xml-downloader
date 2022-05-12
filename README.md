@@ -219,6 +219,9 @@ C#
             }
 
 ```
+
+[más ejemplos]( https://github.com/mendozagit/DotnetCfdi-Samples/)
+
 ## Compatibilidad
 
 Esta librería se mantendrá compatible con al menos la versión con
